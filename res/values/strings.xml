@@ -10,6 +10,7 @@
     <string name="save">Save</string>
     <string name="menu_main_activity_change_locale">Blank!</string>
     <string name="header_statusbar">Statusbar</string>
+    <string name="header_misc">Misc</string>
     <string name="header_navbar">Navigation Bar</string>
     <string name="toggles_layout">Toggles</string>
     <string name="general_ui">General UI</string>
@@ -1191,4 +1192,11 @@
     <!-- dynamic changelog -->
     <string name="dynamic_changelog_title">Dynamic ChangeLog</string>
     <string name="dynamic_changelog_summary">Interactive changelog pulled live from our Gerrit instance</string>
+
+    <!-- Themes -->
+    <string name="themes_title">Theme Chooser</string>
+
+    <!-- Device specific settings -->
+    <string name="advanced_settings_title">Device Specific</string>
+
 </resources>
