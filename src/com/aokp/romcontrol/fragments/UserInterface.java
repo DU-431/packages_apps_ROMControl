@@ -34,6 +34,9 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -103,12 +106,15 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final CharSequence PREF_POWER_CRT_MODE = "system_power_crt_mode";
     private static final CharSequence PREF_POWER_CRT_SCREEN_OFF = "system_power_crt_screen_off";
     private static final CharSequence PREF_STATUSBAR_HIDDEN = "statusbar_hidden";
+    private static final CharSequence PREF_LOCKSCREEN_WALLPAPER = "lockscreen_wallpaper";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
     private static final int REQUEST_PICK_BOOT_ANIMATION = 203;
+    private static final int REQUEST_PICK_LOCKSCREEN_WALLPAPER = 204;
 
     private static final String WALLPAPER_NAME = "notification_wallpaper.jpg";
+    private static final String LOCKSCREEN_WALLPAPER_NAME = "lockscreen_wallpaper.jpg";
     private static final String BOOTANIMATION_USER_PATH = "/data/local/bootanimation.zip";
     private static final String BOOTANIMATION_SYSTEM_PATH = "/system/media/bootanimation.zip";
 
@@ -117,6 +123,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     CheckBoxPreference mDisableBootAnimation;
     CheckBoxPreference mStatusBarNotifCount;
     Preference mNotificationWallpaper;
+    Preference mLockscreenWallpaper;
     Preference mWallpaperAlpha;
     Preference mCustomLabel;
     Preference mCustomBootAnimation;
@@ -150,7 +157,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static int mLastRandomInsultIndex = -1;
     private String[] mInsults;
 
-    private int mUiMode;
     private int mSeekbarProgress;
     String mCustomLabelText = null;
     int mUserRotationAngles = -1;
@@ -265,11 +271,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         int crtMode = Settings.System.getInt(mContentResolver,
                 Settings.System.SYSTEM_POWER_CRT_MODE, 0);
         mCrtMode.setValueIndex(crtMode);
-        if (!isCrtOffChecked) {
-            mCrtMode.setSummary(R.string.enable_crt_mode);
-        } else {
-            mCrtMode.setSummary(mCrtMode.getEntries()[crtMode]);
-        }
+        mCrtMode.setSummary(mCrtMode.getEntries()[crtMode]);
         mCrtMode.setOnPreferenceChangeListener(this);
 
         mWakeUpWhenPluggedOrUnplugged =
@@ -284,23 +286,19 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                     .removePreference(mWakeUpWhenPluggedOrUnplugged);
         }
 
-        mUiMode = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.CURRENT_UI_MODE, 0);
-
-        if (mUiMode == 1) {
+        if (isTabletUI(mContext)) {
             mStatusbarSliderPreference.setEnabled(false);
             mStatusBarHide.setEnabled(false);
             mNotificationWallpaper.setEnabled(false);
-            mStatusbarSliderPreference.setSummary(R.string.enable_phone_or_phablet);
-            mStatusBarHide.setSummary(R.string.enable_phone_or_phablet);
-            mNotificationWallpaper.setSummary(R.string.enable_phone_or_phablet);
+            mWallpaperAlpha.setEnabled(false);
         } else {
             mHideExtras.setEnabled(false);
-            mHideExtras.setSummary(R.string.enable_tablet_ui);
         }
 
-        findWallpaperStatus();
+        mLockscreenWallpaper = findPreference(PREF_LOCKSCREEN_WALLPAPER);
+
         resetBootAnimation();
+        findWallpaperStatus();
     }
 
     @Override
@@ -335,16 +333,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         } else {
             mBootAnimationPath = "";
         }
-        setBootanimationSummary();
+        mCustomBootAnimation.setEnabled(!mDisableBootAnimation.isChecked());
         return bootAnimationExists;
     }
 
-    private void setBootanimationSummary() {
-        mCustomBootAnimation.setEnabled(!mDisableBootAnimation.isChecked());
-        mCustomBootAnimation.setSummary(mDisableBootAnimation.isChecked()
-                ? R.string.enable_bootanimation_unlock
-                : R.string.custom_bootanimation_summary);
-    }
     private void resetSwaggedOutBootAnimation() {
         if (new File("/data/local/bootanimation.user").exists()) {
             // we're using the alt boot animation
@@ -543,6 +535,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putBoolean(mContentResolver,
                     Settings.System.RAM_USAGE_BAR, checked);
             return true;
+        } else if (preference == mStatusBarHide) {
+            boolean checked = ((CheckBoxPreference) preference).isChecked();
+            Settings.System.putBoolean(getActivity().getContentResolver(),
+                    Settings.System.STATUSBAR_HIDDEN, checked ? true : false);
+            return true;
         } else if (preference == mWakeUpWhenPluggedOrUnplugged) {
             Settings.System.putBoolean(mContentResolver,
                     Settings.System.WAKEUP_WHEN_PLUGGED_UNPLUGGED,
@@ -550,24 +547,76 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         } else if ("transparency_dialog".equals(preference.getKey())) {
             openTransparencyDialog();
             return true;
+        } else if (preference == mLockscreenWallpaper) {
+            Display display = getActivity().getWindowManager().getDefaultDisplay();
+            int width = display.getWidth();
+            int height = display.getHeight();
+
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+
+            intent.setType("image/*");
+            intent.putExtra("crop", "true");
+            boolean isPortrait = getResources()
+                    .getConfiguration().orientation
+                    == Configuration.ORIENTATION_PORTRAIT;
+            intent.putExtra("aspectX", isPortrait ? width : height);
+            intent.putExtra("aspectY", isPortrait ? height : width);
+            intent.putExtra("outputX", width);
+            intent.putExtra("outputY", height);
+            intent.putExtra("scale", true);
+            intent.putExtra("scaleUpIfNeeded", true);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                    getLockscreenExternalUri());
+            intent.putExtra("outputFormat",
+                    Bitmap.CompressFormat.PNG.toString());
+
+            startActivityForResult(intent, REQUEST_PICK_LOCKSCREEN_WALLPAPER);
+            return true;
         } else if (preference == mCrtOff) {
-            boolean checked = ((CheckBoxPreference) preference).isChecked();
             Settings.System.putBoolean(mContentResolver,
-                    Settings.System.SYSTEM_POWER_ENABLE_CRT_OFF, checked);
-            if (!checked) {
-                mCrtMode.setSummary(R.string.enable_crt_mode);
-            } else {
-                int crtMode = Settings.System.getInt(mContentResolver,
-                        Settings.System.SYSTEM_POWER_CRT_MODE, 0);
-                mCrtMode.setSummary(mCrtMode.getEntries()[crtMode]);
-            }
-        } else if (preference == mStatusBarHide) {
-            boolean checked = ((CheckBoxPreference) preference).isChecked();
-            Settings.System.putBoolean(getActivity().getContentResolver(),
-                    Settings.System.STATUSBAR_HIDDEN, checked ? true : false);
+                    Settings.System.SYSTEM_POWER_ENABLE_CRT_OFF,
+                    ((TwoStatePreference) preference).isChecked());
             return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.user_interface, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.remove_wallpaper:
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mContext.deleteFile(WALLPAPER_NAME);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                findWallpaperStatus();
+                            }
+                        });
+                        Helpers.restartSystemUI();
+                    }
+                }).start();
+                return true;
+             case R.id.remove_lockscreen_wallpaper:
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mContext.deleteFile(LOCKSCREEN_WALLPAPER_NAME);
+                    }
+                }).start();
+                return true;
+           default:
+                // call to super is implicit
+                return onContextItemSelected(item);
+        }
     }
 
     private Uri getNotificationExternalUri() {
@@ -578,13 +627,13 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
     public void findWallpaperStatus() {
         File wallpaper = new File(mContext.getFilesDir(), WALLPAPER_NAME);
-        if (mUiMode != 1 && wallpaper.exists()) {
-            mWallpaperAlpha.setEnabled(true);
-            mWallpaperAlpha.setSummary(null);
-        } else {
-            mWallpaperAlpha.setEnabled(false);
-            mWallpaperAlpha.setSummary(R.string.enable_noti_wallpaper);
-        }
+        mWallpaperAlpha.setEnabled(wallpaper.exists() ? true : false);
+    }
+
+    private Uri getLockscreenExternalUri() {
+        File dir = mContext.getExternalCacheDir();
+        File wallpaper = new File(dir, LOCKSCREEN_WALLPAPER_NAME);
+        return Uri.fromFile(wallpaper);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -621,6 +670,25 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                 }
                 mBootAnimationPath = data.getData().getPath();
                 openBootAnimationDialog();
+            } else if (requestCode == REQUEST_PICK_LOCKSCREEN_WALLPAPER) {
+                FileOutputStream wallpaperStream = null;
+                try {
+                    wallpaperStream = mContext.openFileOutput(LOCKSCREEN_WALLPAPER_NAME,
+                            Context.MODE_WORLD_READABLE);
+                	Uri selectedImageUri = getLockscreenExternalUri();
+                	Bitmap bitmap = BitmapFactory.decodeFile(selectedImageUri.getPath());
+
+                	bitmap.compress(Bitmap.CompressFormat.PNG, 100, wallpaperStream);
+                } catch (FileNotFoundException e) {
+                    return; // NOOOOO
+                } finally {
+                    try {
+                        if (wallpaperStream != null)
+                            wallpaperStream.close();
+                    } catch (IOException e) {
+                        // let it go
+                    }
+                }
             }
         }
     }
@@ -1029,25 +1097,18 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         if (preference == mUserModeUI) {
-            mUiMode = Integer.valueOf((String) newValue);
+            int val = Integer.valueOf((String) newValue);
             Settings.System.putInt(mContentResolver,
-                    Settings.System.USER_UI_MODE, mUiMode);
-            mStatusbarSliderPreference.setEnabled(mUiMode == 1 ? false : true);
-            mStatusBarHide.setEnabled(mUiMode == 1 ? false : true);
-            mNotificationWallpaper.setEnabled(mUiMode == 1 ? false : true);
-            mStatusbarSliderPreference.setSummary(mUiMode == 1 ? R.string.enable_phone_or_phablet
-                    : R.string.brightness_slider_summary);
-            mStatusBarHide.setSummary(mUiMode == 1 ? R.string.enable_phone_or_phablet
-                    : R.string.statusbar_hide_summary);
-            if (mUiMode == 1) {
-                mNotificationWallpaper.setSummary(R.string.enable_phone_or_phablet);
+                    Settings.System.USER_UI_MODE, val);
+            mStatusbarSliderPreference.setEnabled(val == 1 ? false : true);
+            mStatusBarHide.setEnabled(val == 1 ? false : true);
+            mNotificationWallpaper.setEnabled(val == 1 ? false : true);
+            if (val == 1) {
+                mWallpaperAlpha.setEnabled(false);
             } else {
-                mNotificationWallpaper.setSummary(null);
+                findWallpaperStatus();
             }
-            mHideExtras.setEnabled(mUiMode == 1 ? true : false);
-            mHideExtras.setSummary(mUiMode == 1 ? R.string.hide_extras_summary
-                    : R.string.enable_tablet_ui);
-            findWallpaperStatus();
+            mHideExtras.setEnabled(val == 1 ? true : false);
             Helpers.restartSystemUI();
             return true;
         } else if (preference == mCrtMode) {
@@ -1202,14 +1263,16 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         }
 
         private void updateToggleState() {
-            if (linkTransparencies) {
+            /*
+        	if (linkTransparencies) {
                 mSbLabel.setText(R.string.transparency_dialog_transparency_sb_and_nv);
                 mNavigationBarGroup.setVisibility(View.GONE);
             } else {
                 mSbLabel.setText(R.string.transparency_dialog_statusbar);
                 mNavigationBarGroup.setVisibility(View.VISIBLE);
             }
-            mSbLabel.setText(R.string.transparency_dialog_statusbar);
+            */
+        	mSbLabel.setText(R.string.transparency_dialog_statusbar);
 
             mSeekBars[STATUSBAR_KG_ALPHA]
                     .setEnabled(!mMatchStatusbarKeyguard.isChecked());

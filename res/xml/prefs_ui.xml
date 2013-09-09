@@ -164,6 +164,11 @@
             android:title="@string/longpress_to_kill"
             android:summary="@string/longpress_to_kill_summary" />
 
+        <Preference
+            android:key="lockscreen_wallpaper"
+            android:title="@string/lockscreen_wallpaper_title"
+            android:summary="@string/lockscreen_wallpaper_summary" />
+
         <PreferenceScreen
             android:key="lock_clock"
             android:title="@string/lock_clock_title"
