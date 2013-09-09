@@ -4,7 +4,6 @@
     <!-- boot animation stuff -->
     <string-array name="disable_bootanimation_insults" translatable="false">
         <item>@string/insult_jerk</item>
-        <item>@string/insult_protekk</item>
         <item>@string/insult_unicorns</item>
     </string-array>
 
