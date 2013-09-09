@@ -1202,4 +1202,8 @@
     <!-- Performance -->
     <string name="performance_title">Performance Control</string>
 
+    <!-- cLock -->
+    <string name="lock_clock_title">cLock Settings</string>
+    <string name="lock_clock_summary">View or change how the \'cLock\' Home and Lock screen widgets will display</string>
+
 </resources>
