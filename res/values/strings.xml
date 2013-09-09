@@ -1199,4 +1199,7 @@
     <!-- Device specific settings -->
     <string name="advanced_settings_title">Device Specific</string>
 
+    <!-- Performance -->
+    <string name="performance_title">Performance Control</string>
+
 </resources>
