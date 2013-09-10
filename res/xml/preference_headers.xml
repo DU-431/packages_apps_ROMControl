@@ -62,6 +62,12 @@
         android:icon="@drawable/ic_rom_control_quick_settings"
         android:summary="@string/header_summary_toggles" />
 
+     <header
+        android:id="@+id/power_widget_settings"
+        android:fragment="com.aokp.romcontrol.fragments.PowerWidget"
+        android:title="@string/power_widget"
+        android:icon="@drawable/ic_romcontrol_power_widget" />
+
     <header
         android:id="@+id/statusbar_battery"
         android:title="@string/battery"

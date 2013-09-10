@@ -6,6 +6,7 @@ LOCAL_PROGUARD_FLAG_FILES := proguard.cfg
 
 LOCAL_MODULE_TAGS := optional
 
+LOCAL_JAVA_LIBRARIES := bouncycastle telephony-common
 LOCAL_STATIC_JAVA_LIBRARIES := android-support-v13 android-support-v4
 
 LOCAL_SRC_FILES := $(call all-subdir-java-files)
