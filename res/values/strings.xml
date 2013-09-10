@@ -120,7 +120,21 @@
     <string name="title_show_airplane_toggle">Airplane mode</string>
     <string name="title_show_navbar_hide">System Bar toggles</string>
     <string name="title_show_volume_state_toggle">Volume states</string>
+<<<<<<< HEAD
     <string name="title_show_reboot_keyguard">Lockscreen reboot</string>
+=======
+    <string name="title_show_profiles_toggle">Profiles</string>
+    <string name="title_show_reboot_keyguard">Reboot on lockscreen</string>
+    <string name="title_show_power_keyguard">Power off on lockscreen</string>
+    <string name="summary_show_reboot_keyguard">Enabling this will show reboot options while on lockscreen</string>
+    <string name="power_menu_expanded_desktop">Expanded desktop</string>
+    <string name="summary_expanded_desktop">%1$s</string>
+    <string name="expanded_desktop_summary_status_bar">With status bar</string>
+    <string name="expanded_desktop_summary_no_status_bar">Without status bar</string>
+    <string name="expanded_desktop_disabled">Off</string>
+    <string name="expanded_desktop_status_bar">With status bar</string>
+    <string name="expanded_desktop_no_status_bar">Without status bar</string>
+>>>>>>> fb246e0... Added in power menu options for profiles, reboot/power on lockscreen and extended desktop
 
     <!-- S Pen -->
     <string name="spen_left_title">Action on swipe left</string>
@@ -570,8 +584,6 @@
     <string name="navigation_bar_menu_arrow_keys_summary">Checking this enables arrow keys in the Navigation Bar while
         typing
     </string>
-    <string name="statusbar_hide_title">Hide Statusbar</string>
-    <string name="statusbar_hide_summary">Checking this completely hides the Statusbar</string>
     <string name="navigation_bar_alpha_title">Statusbar and Navigation Bar opacity</string>
     <string name="navbar_hide_enable_title">Enable Hidden NavBar</string>
     <string name="systembar_hide_enable_title">Enable Hidden SystemBar</string>

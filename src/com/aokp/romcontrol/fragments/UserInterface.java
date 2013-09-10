@@ -103,6 +103,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final CharSequence PREF_POWER_CRT_MODE = "system_power_crt_mode";
     private static final CharSequence PREF_POWER_CRT_SCREEN_OFF = "system_power_crt_screen_off";
     private static final CharSequence PREF_STATUSBAR_HIDDEN = "statusbar_hidden";
+<<<<<<< HEAD
+=======
+    private static final CharSequence PREF_LOCKSCREEN_WALLPAPER = "lockscreen_wallpaper";
+    private static final String PREF_LIST_EXPANDED_DESKTOP = "expanded_desktop";
+>>>>>>> fb246e0... Added in power menu options for profiles, reboot/power on lockscreen and extended desktop
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -135,9 +140,9 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     CheckBoxPreference mHideExtras;
     CheckBoxPreference mWakeUpWhenPluggedOrUnplugged;
     CheckBoxPreference mDualpane;
+    ListPreference mExpandedDesktopListPref;
     ListPreference mCrtMode;
     CheckBoxPreference mCrtOff;
-    CheckBoxPreference mStatusBarHide;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -236,13 +241,16 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mHideExtras.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.HIDE_EXTRAS_SYSTEM_BAR, false));
 
+        mExpandedDesktopListPref = (ListPreference) findPreference(PREF_LIST_EXPANDED_DESKTOP);
+        mExpandedDesktopListPref.setOnPreferenceChangeListener(this);
+        int expandedDesktopValue = Settings.System.getInt(getContentResolver(),
+                Settings.System.EXPANDED_DESKTOP_STYLE, 0);
+        mExpandedDesktopListPref.setValue(String.valueOf(expandedDesktopValue));
+        updateExpandedDesktop(expandedDesktopValue);
+
         mShowActionOverflow = (CheckBoxPreference) findPreference(PREF_SHOW_OVERFLOW);
         mShowActionOverflow.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.UI_FORCE_OVERFLOW_BUTTON, false));
-
-        mStatusBarHide = (CheckBoxPreference) findPreference(PREF_STATUSBAR_HIDDEN);
-        mStatusBarHide.setChecked(Settings.System.getBoolean(mContentResolver,
-                Settings.System.STATUSBAR_HIDDEN, false));
 
         mUserModeUI = (ListPreference) findPreference(PREF_USER_MODE_UI);
         int uiMode = Settings.System.getInt(mContentResolver,
@@ -289,7 +297,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
         if (mUiMode == 1) {
             mStatusbarSliderPreference.setEnabled(false);
-            mStatusBarHide.setEnabled(false);
             mNotificationWallpaper.setEnabled(false);
             mStatusbarSliderPreference.setSummary(R.string.enable_phone_or_phablet);
             mStatusBarHide.setSummary(R.string.enable_phone_or_phablet);
@@ -584,6 +591,31 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         } else {
             mWallpaperAlpha.setEnabled(false);
             mWallpaperAlpha.setSummary(R.string.enable_noti_wallpaper);
+        }
+    }
+
+    private void updateExpandedDesktop(int value) {
+        ContentResolver cr = getContentResolver();
+        Resources res = getResources();
+        int summary = -1;
+
+        Settings.System.putInt(cr, Settings.System.EXPANDED_DESKTOP_STYLE, value);
+
+        if (value == 0) {
+            // Expanded desktop deactivated
+            Settings.System.putInt(cr, Settings.System.POWER_MENU_EXPANDED_DESKTOP_ENABLED, 0);
+            Settings.System.putInt(cr, Settings.System.EXPANDED_DESKTOP_STATE, 0);
+            summary = R.string.expanded_desktop_disabled;
+        } else if (value == 1) {
+            Settings.System.putInt(cr, Settings.System.POWER_MENU_EXPANDED_DESKTOP_ENABLED, 1);
+            summary = R.string.expanded_desktop_status_bar;
+        } else if (value == 2) {
+            Settings.System.putInt(cr, Settings.System.POWER_MENU_EXPANDED_DESKTOP_ENABLED, 1);
+            summary = R.string.expanded_desktop_no_status_bar;
+        }
+
+        if (mExpandedDesktopListPref != null && summary != -1) {
+            mExpandedDesktopListPref.setSummary(res.getString(summary));
         }
     }
 
@@ -1031,6 +1063,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         if (preference == mUserModeUI) {
             mUiMode = Integer.valueOf((String) newValue);
             Settings.System.putInt(mContentResolver,
+<<<<<<< HEAD
                     Settings.System.USER_UI_MODE, mUiMode);
             mStatusbarSliderPreference.setEnabled(mUiMode == 1 ? false : true);
             mStatusBarHide.setEnabled(mUiMode == 1 ? false : true);
@@ -1041,6 +1074,13 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                     : R.string.statusbar_hide_summary);
             if (mUiMode == 1) {
                 mNotificationWallpaper.setSummary(R.string.enable_phone_or_phablet);
+=======
+                    Settings.System.USER_UI_MODE, val);
+            mStatusbarSliderPreference.setEnabled(val == 1 ? false : true);
+            mNotificationWallpaper.setEnabled(val == 1 ? false : true);
+            if (val == 1) {
+                mWallpaperAlpha.setEnabled(false);
+>>>>>>> fb246e0... Added in power menu options for profiles, reboot/power on lockscreen and extended desktop
             } else {
                 mNotificationWallpaper.setSummary(null);
             }
@@ -1056,6 +1096,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SYSTEM_POWER_CRT_MODE, crtMode);
             mCrtMode.setSummary(mCrtMode.getEntries()[index]);
+            return true;
+        } else if (preference == mExpandedDesktopListPref) {
+            int expandedDesktopValue = Integer.valueOf((String) newValue);
+            updateExpandedDesktop(expandedDesktopValue);
             return true;
         }
         return false;
