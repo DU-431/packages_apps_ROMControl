@@ -20,7 +20,7 @@
     <string name="signal">Signal</string>
     <string name="nav_bar">Navigation Bar</string>
     <string name="power_menu">Power Menu</string>
-    <string name="led_options">LED</string>
+    <string name="led_options">LED Control</string>
     <string name="spen_options">S Pen Gestures</string>
     <string name="header_system">System</string>
     <string name="sound">Sound</string>
@@ -31,13 +31,13 @@
     <string name="installer">Installer</string>
 
     <!-- Activity titles defined in AndroidManifest.xml -->
-    <string name="title_about">About AOKP</string>
+    <string name="title_about">Show Your Support</string>
     <string name="title_power_widget">Power Widget</string>
-    <string name="title_ui">General User Interface</string>
-    <string name="title_statusbar_clock">Statusbar Clock</string>
+    <string name="title_ui">General UI</string>
+    <string name="title_statusbar_clock">Clock</string>
     <string name="title_statusbar_toggles">AOKP Toggles</string>
-    <string name="title_statusbar_battery">Statusbar Battery</string>
-    <string name="title_statusbar_signal">Statusbar Signal</string>
+    <string name="title_statusbar_battery">Battery</string>
+    <string name="title_statusbar_signal">Signal</string>
     <string name="title_navbar">Navigation Bar</string>
     <string name="title_navring">Navigation Ring</string>
     <string name="title_power_menu">Power Menu</string>
@@ -45,10 +45,10 @@
     <string name="title_spen">S Pen Gestures</string>
     <string name="title_lockscreens">Lockscreen Options</string>
     <string name="title_lockscreens_targets">Lockscreen Targets</string>
-    <string name="title_sound">Sound Settings</string>
-    <string name="title_weather">Weather Settings</string>
+    <string name="title_sound">Sound</string>
+    <string name="title_weather">Weather</string>
     <string name="title_performance">Performance Settings</string>
-    <string name="title_installer">Installer Settings</string>
+    <string name="title_installer">Installer</string>
     <string name="title_clipboard_share">Share to Clipboard</string>
     <string name="ribbon_settings_title">Ribbons</string>
 
@@ -178,7 +178,7 @@
     <string name="aokp_website_summary">www.aokp.co - Find all newest releases here.</string>
     <string name="aokp_irc_title">Join us on IRC</string>
     <string name="aokp_irc_summary">#teamkang @ irc.freenode.net</string>
-    <string name="about_aokp">About AOKP</string>
+    <string name="about_aokp">Show Your Support</string>
     <string name="about_aokp_summary">@null</string>
     <string name="donate_aokp">https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=DBBCGTVJ984YG
     </string>
@@ -306,6 +306,8 @@
     <string name="transparency_dialog_transparency">Homescreen alpha</string>
     <string name="transparency_dialog_transparency_keyguard">Lockscreen alpha</string>
     <string name="transparency_dialog_lockscreen">Lockscreen</string>
+    <string name="dark_ui">Dark UI</string>
+    <string name="dark_ui_summary">Enabling this provides a Dark UI theme for various system apps</string>
 
     <!-- LCD Density -->
     <string name="lcd_density_title">LCD Density</string>

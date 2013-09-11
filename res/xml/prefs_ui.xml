@@ -2,9 +2,10 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:key="transparency_dialog"
-        android:title="@string/transparency_dialog_title" />
+    <CheckBoxPreference
+        android:key="ui_inverted_mode"
+        android:title="@string/dark_ui"
+        android:summary="@string/dark_ui_summary" />
 
     <PreferenceCategory
         android:key="bootani"
@@ -90,6 +91,10 @@
     <PreferenceCategory
         android:key="display"
         android:title="@string/display_cat">
+
+    <Preference
+        android:key="transparency_dialog"
+        android:title="@string/transparency_dialog_title" />
 
         <CheckBoxPreference
             android:key="show_overflow"

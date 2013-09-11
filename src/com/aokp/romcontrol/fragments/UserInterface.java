@@ -3,6 +3,7 @@ package com.aokp.romcontrol.fragments;
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -106,13 +107,13 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final CharSequence PREF_DISPLAY = "display";
     private static final CharSequence PREF_POWER_CRT_MODE = "system_power_crt_mode";
     private static final CharSequence PREF_POWER_CRT_SCREEN_OFF = "system_power_crt_screen_off";
-    private static final CharSequence PREF_STATUSBAR_HIDDEN = "statusbar_hidden";
     private static final CharSequence PREF_LOCKSCREEN_WALLPAPER = "lockscreen_wallpaper";
     private static final String PREF_LIST_EXPANDED_DESKTOP = "expanded_desktop";
     private static final String PREF_LS_COLOR_ALPHA = "lock_color_alpha";
     private static final String KEY_LISTVIEW_ANIMATION = "listview_animation";
     private static final String KEY_LISTVIEW_INTERPOLATOR = "listview_interpolator";
     private static final String PREF_LOW_BATTERY_WARNING_POLICY = "pref_low_battery_warning_policy";
+    private static final CharSequence PREF_DARK_UI = "ui_inverted_mode";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -155,6 +156,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     ColorPickerPreference mLsColorAlpha;
     ListPreference mListViewAnimation;
     ListPreference mListViewInterpolator;
+    CheckBoxPreference mDarkUI;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -315,6 +317,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mLowBatteryWarning.setValue(String.valueOf(lowBatteryWarning));
         mLowBatteryWarning.setSummary(mLowBatteryWarning.getEntry());
         mLowBatteryWarning.setOnPreferenceChangeListener(this);
+
+        boolean darkUIenabled = Settings.Secure.getInt(mContentResolver,
+                Settings.Secure.UI_INVERTED_MODE, 1) == 2;
+        mDarkUI = (CheckBoxPreference) findPreference(PREF_DARK_UI);
+        mDarkUI.setChecked(darkUIenabled);
 
         // hide option if device is already set to never wake up
         if (!mContext.getResources().getBoolean(
@@ -623,6 +630,39 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putBoolean(mContentResolver,
                     Settings.System.SYSTEM_POWER_ENABLE_CRT_OFF,
                     ((TwoStatePreference) preference).isChecked());
+            return true;
+        } else if (preference == mDarkUI) {
+            boolean checked = ((CheckBoxPreference) preference).isChecked();
+            Settings.Secure.putInt(mContentResolver,
+                Settings.Secure.UI_INVERTED_MODE, checked ? 2 : 1);
+            Helpers.restartSystemUI();
+            // list off apps which we restart just to be sure due that AOSP
+            // does not every time reload all resources on onConfigurationChanged
+            // or because some apps are just not programmed well on that part.
+            String mTRDSApps[] = new String[] {
+                "com.android.contacts",
+                "com.android.calendar",
+                "com.android.email",
+                "com.android.vending",
+                "com.android.mms",
+                "com.google.android.talk",
+                "com.google.android.gm",
+                "com.google.android.googlequicksearchbox",
+                "com.google.android.youtube",
+                "com.google.android.apps.genie.geniewidget",
+                "com.google.android.apps.plus",
+                "com.google.android.apps.maps"
+            };
+            ActivityManager am = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningAppProcessInfo> pids = am.getRunningAppProcesses();
+            for(int i = 0; i < pids.size(); i++) {
+                ActivityManager.RunningAppProcessInfo info = pids.get(i);
+                for (int j = 0; j < mTRDSApps.length; j++) {
+                    if(info.processName.equalsIgnoreCase(mTRDSApps[j])) {
+                        am.killBackgroundProcesses(mTRDSApps[j]);
+                    }
+                }
+            }
             return true;
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
