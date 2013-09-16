@@ -112,6 +112,8 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String PREF_LS_COLOR_ALPHA = "lock_color_alpha";
     private static final String KEY_LISTVIEW_ANIMATION = "listview_animation";
     private static final String KEY_LISTVIEW_INTERPOLATOR = "listview_interpolator";
+    private static final CharSequence PREF_CAMERA_WIDGET_HIDE = "camera_widget_hide";
+    private static final String PREF_LOW_BATTERY_WARNING_POLICY = "pref_low_battery_warning_policy";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -144,6 +146,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     CheckBoxPreference mStatusbarSliderPreference;
     AlertDialog mCustomBootAnimationDialog;
     ListPreference mUserModeUI;
+    ListPreference mLowBatteryWarning;
     CheckBoxPreference mHideExtras;
     CheckBoxPreference mWakeUpWhenPluggedOrUnplugged;
     CheckBoxPreference mDualpane;
@@ -306,6 +309,13 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
         mLsColorAlpha = (ColorPickerPreference) findPreference(PREF_LS_COLOR_ALPHA);
         mLsColorAlpha.setOnPreferenceChangeListener(this);
+
+        mLowBatteryWarning = (ListPreference) findPreference(PREF_LOW_BATTERY_WARNING_POLICY);
+        int lowBatteryWarning = Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.POWER_UI_LOW_BATTERY_WARNING_POLICY, 3);
+        mLowBatteryWarning.setValue(String.valueOf(lowBatteryWarning));
+        mLowBatteryWarning.setSummary(mLowBatteryWarning.getEntry());
+        mLowBatteryWarning.setOnPreferenceChangeListener(this);
 
         // hide option if device is already set to never wake up
         if (!mContext.getResources().getBoolean(
@@ -1138,6 +1148,12 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             int intHex = ColorPickerPreference.convertToColorInt(hex);
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.LOCKSCREEN_COLOR_ALPHA, intHex);
+        } else if (preference == mLowBatteryWarning) {
+            int lowBatteryWarning = Integer.valueOf((String) newValue);
+            int index = mLowBatteryWarning.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.POWER_UI_LOW_BATTERY_WARNING_POLICY, lowBatteryWarning);
+            mLowBatteryWarning.setSummary(mLowBatteryWarning.getEntries()[index]);
             return true;
         } else if (preference == mExpandedDesktopListPref) {
             int expandedDesktopValue = Integer.valueOf((String) newValue);
