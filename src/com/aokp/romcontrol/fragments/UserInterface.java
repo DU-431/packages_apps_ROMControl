@@ -1,5 +1,7 @@
 package com.aokp.romcontrol.fragments;
 
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -108,6 +110,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final CharSequence PREF_STATUSBAR_HIDDEN = "statusbar_hidden";
     private static final CharSequence PREF_LOCKSCREEN_WALLPAPER = "lockscreen_wallpaper";
     private static final String PREF_LIST_EXPANDED_DESKTOP = "expanded_desktop";
+    private static final String PREF_LS_COLOR_ALPHA = "lock_color_alpha";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -146,6 +149,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     ListPreference mExpandedDesktopListPref;
     ListPreference mCrtMode;
     CheckBoxPreference mCrtOff;
+    ColorPickerPreference mLsColorAlpha;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -282,6 +286,9 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                 (CheckBoxPreference) findPreference(PREF_WAKEUP_WHEN_PLUGGED_UNPLUGGED);
         mWakeUpWhenPluggedOrUnplugged.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.WAKEUP_WHEN_PLUGGED_UNPLUGGED, true));
+
+        mLsColorAlpha = (ColorPickerPreference) findPreference(PREF_LS_COLOR_ALPHA);
+        mLsColorAlpha.setOnPreferenceChangeListener(this);
 
         // hide option if device is already set to never wake up
         if (!mContext.getResources().getBoolean(
@@ -1139,6 +1146,13 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SYSTEM_POWER_CRT_MODE, crtMode);
             mCrtMode.setSummary(mCrtMode.getEntries()[index]);
+            return true;
+        } else if (preference == mLsColorAlpha) {
+            String hex = ColorPickerPreference.convertToARGB(Integer.valueOf(String.valueOf(newValue)));
+            preference.setSummary(hex);
+            int intHex = ColorPickerPreference.convertToColorInt(hex);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.LOCKSCREEN_COLOR_ALPHA, intHex);
             return true;
         } else if (preference == mExpandedDesktopListPref) {
             int expandedDesktopValue = Integer.valueOf((String) newValue);

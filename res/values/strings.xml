@@ -1302,4 +1302,8 @@
     <string name="increasing_ring_interval_5seconds">5 seconds</string>
     <string name="increasing_ring_interval_10seconds">10 seconds</string>
 
+    <!-- Lockscreen tint color -->
+    <string name="ls_color_alpha_title">Lockscreen Tint Color</string>
+    <string name="ls_color_alpha_summary">Allows to change the tint of the lock screen.</string>
+
 </resources>

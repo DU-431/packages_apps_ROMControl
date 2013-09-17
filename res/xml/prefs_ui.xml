@@ -171,6 +171,13 @@
             android:entryValues="@array/expanded_desktop_values"
             android:persistent="false" />
 
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="lock_color_alpha"
+            android:title="@string/ls_color_alpha_title"
+            android:summary="@string/ls_color_alpha_summary"
+            android:defaultValue="0x70000000"
+            alphaSlider="true" />
+
         <PreferenceScreen
             android:key="lock_clock"
             android:title="@string/lock_clock_title"
