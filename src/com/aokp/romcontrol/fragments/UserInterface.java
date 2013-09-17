@@ -19,7 +19,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -307,6 +306,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
         mLockscreenWallpaper = findPreference(PREF_LOCKSCREEN_WALLPAPER);
 
+        setHasOptionsMenu(true);
         resetBootAnimation();
         findWallpaperStatus();
     }
@@ -424,12 +424,27 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             }
             return true;
         } else if (preference == mNotificationWallpaper) {
-            File wallpaper = new File(mContext.getFilesDir(), WALLPAPER_NAME);
-            if (wallpaper.exists()) {
-                buildWallpaperAlert();
-            } else {
-                prepareAndSetWallpaper();
-            }
+            Display display = getActivity().getWindowManager().getDefaultDisplay();
+            int width = display.getWidth();
+            int height = display.getHeight();
+
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+            intent.setType("image/*");
+            intent.putExtra("crop", "true");
+            boolean isPortrait = getResources()
+                    .getConfiguration().orientation
+                    == Configuration.ORIENTATION_PORTRAIT;
+            intent.putExtra("aspectX", isPortrait ? width : height);
+            intent.putExtra("aspectY", isPortrait ? height : width);
+            intent.putExtra("outputX", width);
+            intent.putExtra("outputY", height);
+            intent.putExtra("scale", true);
+            intent.putExtra("scaleUpIfNeeded", true);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,
+                    getNotificationExternalUri());
+            intent.putExtra("outputFormat",
+                    Bitmap.CompressFormat.PNG.toString());
+            startActivityForResult(intent, REQUEST_PICK_WALLPAPER);
             return true;
         } else if (preference == mWallpaperAlpha) {
             Resources res = getActivity().getResources();
@@ -641,31 +656,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         return Uri.fromFile(wallpaper);
     }
 
-    private void updateExpandedDesktop(int value) {
-        ContentResolver cr = getContentResolver();
-        Resources res = getResources();
-        int summary = -1;
-
-        Settings.System.putInt(cr, Settings.System.EXPANDED_DESKTOP_STYLE, value);
-
-        if (value == 0) {
-            // Expanded desktop deactivated
-            Settings.System.putInt(cr, Settings.System.POWER_MENU_EXPANDED_DESKTOP_ENABLED, 0);
-            Settings.System.putInt(cr, Settings.System.EXPANDED_DESKTOP_STATE, 0);
-            summary = R.string.expanded_desktop_disabled;
-        } else if (value == 1) {
-            Settings.System.putInt(cr, Settings.System.POWER_MENU_EXPANDED_DESKTOP_ENABLED, 1);
-            summary = R.string.expanded_desktop_status_bar;
-        } else if (value == 2) {
-            Settings.System.putInt(cr, Settings.System.POWER_MENU_EXPANDED_DESKTOP_ENABLED, 1);
-            summary = R.string.expanded_desktop_no_status_bar;
-        }
-
-        if (mExpandedDesktopListPref != null && summary != -1) {
-            mExpandedDesktopListPref.setSummary(res.getString(summary));
-        }
-    }
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_PICK_WALLPAPER) {
@@ -677,24 +667,22 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                     Bitmap bitmap = BitmapFactory.decodeFile(
                             selectedImageUri.getPath());
                     bitmap.compress(Bitmap.CompressFormat.PNG,
-                            100,
-                            wallpaperStream);
+                                    100,
+                                    wallpaperStream);
                 } catch (FileNotFoundException e) {
                     return; // NOOOOO
                 } finally {
                     try {
-                        if (wallpaperStream != null) {
+                        if (wallpaperStream != null)
                             wallpaperStream.close();
-                        }
                     } catch (IOException e) {
                         // let it go
                     }
                 }
                 findWallpaperStatus();
-                buildWallpaperAlert();
                 Helpers.restartSystemUI();
             } else if (requestCode == REQUEST_PICK_BOOT_ANIMATION) {
-                if (data == null) {
+                if (data==null) {
                     //Nothing returned by user, probably pressed back button in file manager
                     return;
                 }
@@ -723,66 +711,29 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         }
     }
 
-    private void buildWallpaperAlert() {
-        Drawable myWall = null;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.notification_wallpaper_dialog);
-        builder.setPositiveButton(R.string.notification_wallpaper_pick,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        prepareAndSetWallpaper();
-                    }
-                });
-        builder.setNegativeButton(R.string.notification_wallpaper_reset,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        resetWallpaper();
-                        dialog.dismiss();
-                    }
-                });
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        View layout = inflater.inflate(R.layout.dialog_shade_wallpaper, null);
-        ImageView wallView = (ImageView) layout.findViewById(R.id.shade_wallpaper_preview);
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        wallView.setLayoutParams(new LinearLayout.LayoutParams(size.x / 2, size.y / 2));
-        File wallpaper = new File(mContext.getFilesDir(), WALLPAPER_NAME);
-        myWall = new BitmapDrawable(mContext.getResources(), wallpaper.getAbsolutePath());
-        wallView.setImageDrawable(myWall);
-        builder.setView(layout);
-        builder.show();
-    }
+    private void updateExpandedDesktop(int value) {
+        ContentResolver cr = getContentResolver();
+        Resources res = getResources();
+        int summary = -1;
 
-    private void prepareAndSetWallpaper() {
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        int width = display.getWidth();
-        int height = display.getHeight();
+        Settings.System.putInt(cr, Settings.System.EXPANDED_DESKTOP_STYLE, value);
 
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
-        intent.setType("image/*");
-        intent.putExtra("crop", "true");
-        boolean isPortrait = getResources()
-                .getConfiguration().orientation
-                == Configuration.ORIENTATION_PORTRAIT;
-        intent.putExtra("aspectX", isPortrait ? width : height);
-        intent.putExtra("aspectY", isPortrait ? height : width);
-        intent.putExtra("outputX", width);
-        intent.putExtra("outputY", height);
-        intent.putExtra("scale", true);
-        intent.putExtra("scaleUpIfNeeded", true);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                getNotificationExternalUri());
-        intent.putExtra("outputFormat",
-                Bitmap.CompressFormat.PNG.toString());
-        startActivityForResult(intent, REQUEST_PICK_WALLPAPER);
-    }
+        if (value == 0) {
+            // Expanded desktop deactivated
+            Settings.System.putInt(cr, Settings.System.POWER_MENU_EXPANDED_DESKTOP_ENABLED, 0);
+            Settings.System.putInt(cr, Settings.System.EXPANDED_DESKTOP_STATE, 0);
+            summary = R.string.expanded_desktop_disabled;
+        } else if (value == 1) {
+            Settings.System.putInt(cr, Settings.System.POWER_MENU_EXPANDED_DESKTOP_ENABLED, 1);
+            summary = R.string.expanded_desktop_status_bar;
+        } else if (value == 2) {
+            Settings.System.putInt(cr, Settings.System.POWER_MENU_EXPANDED_DESKTOP_ENABLED, 1);
+            summary = R.string.expanded_desktop_no_status_bar;
+        }
 
-    private void resetWallpaper() {
-        mContext.deleteFile(WALLPAPER_NAME);
-        findWallpaperStatus();
-        Helpers.restartSystemUI();
+        if (mExpandedDesktopListPref != null && summary != -1) {
+            mExpandedDesktopListPref.setSummary(res.getString(summary));
+        }
     }
 
     private void openBootAnimationDialog() {
