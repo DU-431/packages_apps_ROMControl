@@ -120,7 +120,17 @@
     <string name="title_show_airplane_toggle">Airplane mode</string>
     <string name="title_show_navbar_hide">System Bar toggles</string>
     <string name="title_show_volume_state_toggle">Volume states</string>
-    <string name="title_show_reboot_keyguard">Lockscreen reboot</string>
+    <string name="title_show_profiles_toggle">Profiles</string>
+    <string name="title_show_reboot_keyguard">Reboot on lockscreen</string>
+    <string name="title_show_power_keyguard">Power off on lockscreen</string>
+    <string name="summary_show_reboot_keyguard">Enabling this will show reboot options while on lockscreen</string>
+    <string name="power_menu_expanded_desktop">Expanded desktop</string>
+    <string name="summary_expanded_desktop">%1$s</string>
+    <string name="expanded_desktop_summary_status_bar">With status bar</string>
+    <string name="expanded_desktop_summary_no_status_bar">Without status bar</string>
+    <string name="expanded_desktop_disabled">Off</string>
+    <string name="expanded_desktop_status_bar">With status bar</string>
+    <string name="expanded_desktop_no_status_bar">Without status bar</string>
 
     <!-- S Pen -->
     <string name="spen_left_title">Action on swipe left</string>
