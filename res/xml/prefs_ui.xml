@@ -55,6 +55,11 @@
             android:summary="@string/brightness_slider_summary" />
 
         <CheckBoxPreference
+            android:key="statusbar_hidden"
+            android:title="@string/statusbar_hide_title"
+            android:summary="@string/statusbar_hide_summary" />
+
+        <CheckBoxPreference
             android:key="ime_switcher"
             android:title="@string/ime_switcher_title"
             android:summary="@string/ime_switcher_summary"
@@ -159,21 +164,6 @@
             android:title="@string/longpress_to_kill"
             android:summary="@string/longpress_to_kill_summary" />
 
-<<<<<<< HEAD
-=======
-        <Preference
-            android:key="lockscreen_wallpaper"
-            android:title="@string/lockscreen_wallpaper_title"
-            android:summary="@string/lockscreen_wallpaper_summary" />
-
-        <ListPreference
-            android:key="expanded_desktop"
-            android:title="@string/power_menu_expanded_desktop"
-            android:entries="@array/expanded_desktop_entries"
-            android:entryValues="@array/expanded_desktop_values"
-            android:persistent="false" />
-
->>>>>>> fb246e0... Added in power menu options for profiles, reboot/power on lockscreen and extended desktop
         <PreferenceScreen
             android:key="lock_clock"
             android:title="@string/lock_clock_title"
