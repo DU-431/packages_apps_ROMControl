@@ -14,9 +14,16 @@
      limitations under the License.
 -->
 
+<<<<<<< HEAD:res/xml/dynamic_changelog.xml
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="dynamic_changelog"
         android:title="@string/dynamic_changelog_cat_title" />
 </PreferenceScreen>
+=======
+<resources>
+    <!-- Whether or not device settings should be displayed or not for the device -->
+    <bool name="has_advanced_settings">false</bool>
+</resources>
+>>>>>>> d95125f... Set bools for device settinsg off and make softkeys enable for all:res/values/bools.xml
