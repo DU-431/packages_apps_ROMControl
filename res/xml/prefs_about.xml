@@ -13,11 +13,6 @@
             android:summary="@string/aokp_website_summary" />
 
         <Preference
-            android:key="aokp_review"
-            android:title="@string/aokp_review_title"
-            android:summary="@string/aokp_review_summary" />
-
-        <Preference
             android:key="aokp_irc"
             android:title="@string/aokp_irc_title"
             android:summary="@string/aokp_irc_summary" />
@@ -151,13 +146,6 @@
             aokp:twitterHandle="bajee11"
             aokp:githubLink="@string/github_bajee11"
             aokp:emailDev="bajee11@gmail.com"/>
-
-        <com.aokp.romcontrol.widgets.DeveloperPreference
-            android:title="DAGr8"
-            aokp:nameDev="DAGr8"
-            aokp:twitterHandle="Saurom_Projekt"
-            aokp:githubLink="@string/github_DAGr8"
-            aokp:emailDev="renocustom@gmail.com"/>
 
         <com.aokp.romcontrol.widgets.DeveloperPreference
             android:title="dhacker29"
