@@ -160,17 +160,17 @@
             android:title="@string/longpress_to_kill"
             android:summary="@string/longpress_to_kill_summary" />
 
-        <Preference
-            android:key="lockscreen_wallpaper"
-            android:title="@string/lockscreen_wallpaper_title"
-            android:summary="@string/lockscreen_wallpaper_summary" />
-
         <ListPreference
             android:key="expanded_desktop"
             android:title="@string/power_menu_expanded_desktop"
             android:entries="@array/expanded_desktop_entries"
             android:entryValues="@array/expanded_desktop_values"
             android:persistent="false" />
+
+        <Preference
+            android:key="lockscreen_wallpaper"
+            android:title="@string/lockscreen_wallpaper_title"
+            android:summary="@string/lockscreen_wallpaper_summary" />
 
         <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="lock_color_alpha"
