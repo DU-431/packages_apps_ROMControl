@@ -177,7 +177,6 @@
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".fragments.StatusBarToggles"
             android:label="@string/title_statusbar_toggles">
