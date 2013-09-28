@@ -284,6 +284,32 @@
         <item>@string/icon_with_text</item>
         <item>@string/icon_with_centered_text</item>
         <item>@string/circlemod</item>
+        <item>@string/status_bar_battery_status_cyanogenmod_circle</item>
+        <item>@string/status_bar_battery_status_cyanogenmod_circle_percentage</item>
+        <item>@string/status_bar_battery_status_dotted_circle</item>
+        <item>@string/axiom</item>
+        <item>@string/min</item>
+        <item>@string/blue</item>
+        <item>@string/cyborg</item>
+        <item>@string/fourbar</item>
+        <item>@string/gauge</item>
+        <item>@string/gaugemod</item>
+        <item>@string/gummy</item>
+        <item>@string/honey</item>
+        <item>@string/lucid</item>
+        <item>@string/newborn3</item>
+        <item>@string/numbers</item>
+        <item>@string/oldaokp</item>
+        <item>@string/rainbow</item>
+        <item>@string/sense</item>
+        <item>@string/tribute</item>
+        <item>@string/whitecircle</item>
+        <item>@string/square</item>
+        <item>@string/altcircle</item>
+        <item>@string/brick</item>
+        <item>@string/planet</item>
+        <item>@string/racing</item>
+        <item>@string/slider</item>
         <item>@string/dont_show</item>
     </string-array>
     <string-array name="battery_icon_values" translatable="false">
@@ -292,6 +318,48 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+    </string-array>
+
+    <string-array name="circle_battery_animation_speed_entries" >
+        <item>@string/circle_battery_animation_speed_none</item>
+        <item>@string/circle_battery_animation_speed_slow</item>
+        <item>@string/circle_battery_animation_speed_stock</item>
+        <item>@string/circle_battery_animation_speed_fast</item>
+    </string-array>
+
+    <string-array name="circle_battery_animation_speed_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
         <item>5</item>
     </string-array>
 
