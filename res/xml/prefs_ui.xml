@@ -6,7 +6,6 @@
         android:key="transparency_dialog"
         android:title="@string/transparency_dialog_title" />
 
-
     <PreferenceCategory
         android:key="bootani"
         android:title="@string/bootani_cat">
@@ -190,11 +189,6 @@
             android:entries="@array/pref_low_battery_warning_policy_entries"
             android:entryValues="@array/pref_low_battery_warning_policy_values"
             android:defaultValue="0" />
-
-        <CheckBoxPreference
-            android:key="camera_widget_hide"
-            android:title="@string/camera_widget_hide"
-            android:summary="@string/camera_widget_hide_summary" />
 
         <Preference
             android:key="lockscreen_wallpaper"

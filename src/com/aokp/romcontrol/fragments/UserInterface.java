@@ -112,7 +112,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String PREF_LS_COLOR_ALPHA = "lock_color_alpha";
     private static final String KEY_LISTVIEW_ANIMATION = "listview_animation";
     private static final String KEY_LISTVIEW_INTERPOLATOR = "listview_interpolator";
-    private static final CharSequence PREF_CAMERA_WIDGET_HIDE = "camera_widget_hide";
     private static final String PREF_LOW_BATTERY_WARNING_POLICY = "pref_low_battery_warning_policy";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
@@ -150,7 +149,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     CheckBoxPreference mHideExtras;
     CheckBoxPreference mWakeUpWhenPluggedOrUnplugged;
     CheckBoxPreference mDualpane;
-    CheckBoxPreference mCameraWidget;
     ListPreference mExpandedDesktopListPref;
     ListPreference mCrtMode;
     CheckBoxPreference mCrtOff;
@@ -253,10 +251,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mHideExtras = (CheckBoxPreference) findPreference(PREF_HIDE_EXTRAS);
         mHideExtras.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.HIDE_EXTRAS_SYSTEM_BAR, false));
-
-        mCameraWidget = (CheckBoxPreference) findPreference(PREF_CAMERA_WIDGET_HIDE);
-        mCameraWidget.setChecked(Settings.System.getBoolean(mContentResolver,
-                Settings.System.CAMERA_WIDGET_HIDE, false));
 
         mExpandedDesktopListPref = (ListPreference) findPreference(PREF_LIST_EXPANDED_DESKTOP);
         mExpandedDesktopListPref.setOnPreferenceChangeListener(this);
@@ -582,11 +576,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             boolean checked = ((TwoStatePreference) preference).isChecked();
             Settings.System.putBoolean(mContentResolver,
                     Settings.System.RECENT_KILL_ALL_BUTTON, checked);
-            return true;
-        } else if (preference == mCameraWidget) {
-            boolean checked = ((TwoStatePreference) preference).isChecked();
-            Settings.System.putBoolean(mContentResolver,
-                    Settings.System.CAMERA_WIDGET_HIDE, checked);
             return true;
         } else if (preference == mRecentGoog) {
             boolean checked = ((TwoStatePreference) preference).isChecked();
