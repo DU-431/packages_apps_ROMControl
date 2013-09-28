@@ -110,6 +110,8 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final CharSequence PREF_LOCKSCREEN_WALLPAPER = "lockscreen_wallpaper";
     private static final String PREF_LIST_EXPANDED_DESKTOP = "expanded_desktop";
     private static final String PREF_LS_COLOR_ALPHA = "lock_color_alpha";
+    private static final String KEY_LISTVIEW_ANIMATION = "listview_animation";
+    private static final String KEY_LISTVIEW_INTERPOLATOR = "listview_interpolator";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -149,6 +151,8 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     ListPreference mCrtMode;
     CheckBoxPreference mCrtOff;
     ColorPickerPreference mLsColorAlpha;
+    ListPreference mListViewAnimation;
+    ListPreference mListViewInterpolator;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -268,6 +272,20 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mDualpane.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.FORCE_DUAL_PANEL, getResources().getBoolean(
                 com.android.internal.R.bool.preferences_prefer_dual_pane)));
+
+        mListViewAnimation = (ListPreference) findPreference(KEY_LISTVIEW_ANIMATION);
+        int listviewanimation = Settings.System.getInt(getActivity().getContentResolver(),
+            Settings.System.LISTVIEW_ANIMATION, 0);
+        mListViewAnimation.setValue(String.valueOf(listviewanimation));
+        mListViewAnimation.setSummary(mListViewAnimation.getEntry());
+        mListViewAnimation.setOnPreferenceChangeListener(this);
+
+        mListViewInterpolator = (ListPreference) findPreference(KEY_LISTVIEW_INTERPOLATOR);
+        int listviewinterpolator = Settings.System.getInt(getActivity().getContentResolver(),
+            Settings.System.LISTVIEW_INTERPOLATOR, 0);
+        mListViewInterpolator.setValue(String.valueOf(listviewinterpolator));
+        mListViewInterpolator.setSummary(mListViewInterpolator.getEntry());
+        mListViewInterpolator.setOnPreferenceChangeListener(this);
 
         boolean isCrtOffChecked = (Settings.System.getBoolean(mContentResolver,
                 Settings.System.SYSTEM_POWER_ENABLE_CRT_OFF, true));
@@ -1097,6 +1115,22 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SYSTEM_POWER_CRT_MODE, crtMode);
             mCrtMode.setSummary(mCrtMode.getEntries()[index]);
+            return true;
+        } else if (preference == mListViewAnimation) {
+            int listviewanimation = Integer.valueOf((String) newValue);
+            int index = mListViewAnimation.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.LISTVIEW_ANIMATION,
+                    listviewanimation);
+            mListViewAnimation.setSummary(mListViewAnimation.getEntries()[index]);
+            return true;
+        } else if (preference == mListViewInterpolator) {
+            int listviewinterpolator = Integer.valueOf((String) newValue);
+            int index = mListViewInterpolator.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.LISTVIEW_INTERPOLATOR,
+                    listviewinterpolator);
+            mListViewInterpolator.setSummary(mListViewInterpolator.getEntries()[index]);
             return true;
         } else if (preference == mLsColorAlpha) {
             String hex = ColorPickerPreference.convertToARGB(Integer.valueOf(String.valueOf(newValue)));
