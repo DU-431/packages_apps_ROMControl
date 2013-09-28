@@ -1411,4 +1411,8 @@
     <string name="low_battery_warning_policy_sound">Sound only</string>
     <string name="low_battery_warning_policy_disabled">Disabled</string>
 
+    <!-- Hide Camera Widget -->
+    <string name="camera_widget_hide">Disable lockscreen camera widget</string>
+    <string name="camera_widget_hide_summary">Allows you to disable camera widget in lockscreen</string>
+
 </resources>
