@@ -114,6 +114,12 @@
         android:icon="@drawable/ic_rom_control_halo" />
 
     <header
+        android:id="@+id/active_display"
+        android:fragment="com.aokp.romcontrol.liquid.ActiveDisplaySettings"
+        android:title="@string/ad_settings_title"
+        android:icon="@drawable/ic_rom_control_activedisplay" />
+
+    <header
         android:id="@+id/led"
         android:fragment="com.aokp.romcontrol.fragments.LEDControl"
         android:title="@string/led_options"

@@ -284,6 +284,7 @@
         </receiver>
 
         <activity android:name=".paranoid.Halo" />
+        <activity android:name=".liquid.ActiveDisplaySettings" />
 
         <service android:name=".service.BootService"/>
         <service android:name=".service.HeadphoneService"/>
