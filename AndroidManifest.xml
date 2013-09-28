@@ -283,6 +283,8 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".paranoid.Halo" />
+
         <service android:name=".service.BootService"/>
         <service android:name=".service.HeadphoneService"/>
         <service android:name=".service.FlipService"/>
