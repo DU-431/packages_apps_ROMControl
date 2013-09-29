@@ -140,6 +140,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".cyanogenmod.PropModder"
+            android:label="@string/propmodder_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="com.aokp.romcontrol.SHORTCUT"/>
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".fragments.SPenGestures"
             android:label="@string/title_spen" >
             <intent-filter>
@@ -285,6 +294,7 @@
 
         <activity android:name=".paranoid.Halo" />
         <activity android:name=".liquid.ActiveDisplaySettings" />
+        <activity android:name=".utils.ShowBuildProp" /> 
 
         <service android:name=".service.BootService"/>
         <service android:name=".service.HeadphoneService"/>
