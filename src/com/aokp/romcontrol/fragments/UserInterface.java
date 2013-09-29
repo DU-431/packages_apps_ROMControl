@@ -114,6 +114,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String KEY_LISTVIEW_INTERPOLATOR = "listview_interpolator";
     private static final String PREF_LOW_BATTERY_WARNING_POLICY = "pref_low_battery_warning_policy";
     private static final CharSequence PREF_DARK_UI = "ui_inverted_mode";
+    private static final String KEY_MISSED_CALL_BREATH = "missed_call_breath";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -157,6 +158,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     ListPreference mListViewAnimation;
     ListPreference mListViewInterpolator;
     CheckBoxPreference mDarkUI;
+    private CheckBoxPreference mMissedCallBreath;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -322,6 +324,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                 Settings.Secure.UI_INVERTED_MODE, 1) == 2;
         mDarkUI = (CheckBoxPreference) findPreference(PREF_DARK_UI);
         mDarkUI.setChecked(darkUIenabled);
+
+        mMissedCallBreath = (CheckBoxPreference) findPreference(KEY_MISSED_CALL_BREATH);
+        mMissedCallBreath.setChecked(Settings.System.getBoolean(mContentResolver,
+                Settings.System.MISSED_CALL_BREATH, false));
 
         // hide option if device is already set to never wake up
         if (!mContext.getResources().getBoolean(
@@ -631,6 +637,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                     Settings.System.SYSTEM_POWER_ENABLE_CRT_OFF,
                     ((TwoStatePreference) preference).isChecked());
             return true;
+        } else if (preference == mMissedCallBreath) {
+            Settings.System.putInt(mContext.getContentResolver(),
+                    Settings.System.MISSED_CALL_BREATH,
+                    mMissedCallBreath.isChecked() ? 1 : 0);
+           return true;
         } else if (preference == mDarkUI) {
             boolean checked = ((CheckBoxPreference) preference).isChecked();
             Settings.Secure.putInt(mContentResolver,

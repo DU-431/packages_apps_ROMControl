@@ -164,6 +164,12 @@
             android:title="@string/longpress_to_kill"
             android:summary="@string/longpress_to_kill_summary" />
 
+        <CheckBoxPreference
+            android:key="missed_call_breath"
+            android:title="@string/missed_call_breath"
+            android:summary="@string/missed_call_breath_summary"
+            android:defaultValue="false" /> 
+
         <ListPreference
             android:key="listview_animation"
             android:dialogTitle="@string/listview_animation_title"
