@@ -123,9 +123,10 @@ public class PowerWidgetUtil {
     }
 
     private static final String BUTTON_DELIMITER = "|";
-    private static final String BUTTONS_DEFAULT = BUTTON_WIFI
-            + BUTTON_DELIMITER + BUTTON_BLUETOOTH
-            + BUTTON_DELIMITER + BUTTON_GPS
+    private static final String BUTTONS_DEFAULT = BUTTON_MOBILEDATA
+            + BUTTON_DELIMITER + BUTTON_WIFI
+            + BUTTON_DELIMITER + BUTTON_FLASHLIGHT
+            + BUTTON_DELIMITER + BUTTON_LOCKSCREEN
             + BUTTON_DELIMITER + BUTTON_SOUND;
 
     public static String getCurrentButtons(Context context) {

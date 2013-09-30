@@ -58,7 +58,7 @@ public class StatusBarBattery extends AOKPPreferenceFragment implements
         mBatteryIcon = (ListPreference) findPreference(PREF_BATT_ICON);
         mBatteryIcon.setOnPreferenceChangeListener(this);
         mBatteryIcon.setValue((Settings.System.getInt(mContentRes,
-                Settings.System.STATUSBAR_BATTERY_ICON, 0)) + "");
+                Settings.System.STATUSBAR_BATTERY_ICON, 29)) + "");
 
         mCircleColor = (ColorPickerPreference) findPreference(PREF_STATUS_BAR_CIRCLE_BATTERY_COLOR);
         mCircleColor.setOnPreferenceChangeListener(this);

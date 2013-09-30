@@ -1272,7 +1272,6 @@
     <string name="power_widget_behavior">Widget Behavior</string>
     <string name="title_expanded_hide_onchange">Close Drawer (On Change)</string>
     <string name="title_expanded_hide_indicator">Hide Indicators</string>
-    <string name="title_expanded_hide_scrollbar">Hide Scrollbar</string>
     <string name="title_widget_picker">Widget Buttons</string>
     <string name="summary_widget_picker">View or change the displayed buttons</string>
     <string name="title_widget_order">Button Order</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    >
 
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" 
+>
     <Preference
         android:key="toggles"
         android:title="@string/toggle_dialog_arrange_title" />
@@ -46,7 +46,8 @@
     <CheckBoxPreference
         android:key="swipe_to_switch"
         android:title="@string/swipe_to_switch_title"
-        android:summary="@string/swipe_to_switch_summary" />
+        android:summary="@string/swipe_to_switch_summary"
+        android:defaultValue="true" />
 
     <Preference
         android:key="toggle_fav_contact"

@@ -69,7 +69,7 @@
         android:icon="@drawable/ic_rom_control_quick_settings"
         android:summary="@string/header_summary_toggles" />
 
-     <header
+    <header
         android:id="@+id/power_widget_settings"
         android:fragment="com.aokp.romcontrol.fragments.PowerWidget"
         android:title="@string/power_widget"

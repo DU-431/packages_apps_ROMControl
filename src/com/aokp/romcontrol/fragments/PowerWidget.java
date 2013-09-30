@@ -60,7 +60,6 @@ public class PowerWidget extends AOKPPreferenceFragment implements
     private static final String SEPARATOR = "OV=I=XseparatorX=I=VO";
     private static final String UI_EXP_WIDGET = "expanded_widget";
     private static final String UI_EXP_WIDGET_HIDE_ONCHANGE = "expanded_hide_onchange";
-    private static final String UI_EXP_WIDGET_HIDE_SCROLLBAR = "expanded_hide_scrollbar";
     private static final String UI_EXP_WIDGET_HAPTIC_FEEDBACK = "expanded_haptic_feedback";
     private static final String PREF_BRIGHTNESS_LOC = "brightness_location";
 
@@ -82,8 +81,6 @@ public class PowerWidget extends AOKPPreferenceFragment implements
             mPowerWidget = (CheckBoxPreference) prefSet.findPreference(UI_EXP_WIDGET);
             mPowerWidgetHideOnChange = (CheckBoxPreference) prefSet
                     .findPreference(UI_EXP_WIDGET_HIDE_ONCHANGE);
-            mPowerWidgetHideScrollBar = (CheckBoxPreference) prefSet
-                    .findPreference(UI_EXP_WIDGET_HIDE_SCROLLBAR);
 
             mPowerWidgetHapticFeedback = (ListPreference) prefSet
                     .findPreference(UI_EXP_WIDGET_HAPTIC_FEEDBACK);
@@ -92,13 +89,10 @@ public class PowerWidget extends AOKPPreferenceFragment implements
 
             mPowerWidget.setChecked((Settings.System.getInt(getActivity().getApplicationContext()
                     .getContentResolver(),
-                    Settings.System.EXPANDED_VIEW_WIDGET, 0) == 1));
+                    Settings.System.EXPANDED_VIEW_WIDGET, 1) == 1));
             mPowerWidgetHideOnChange.setChecked((Settings.System.getInt(getActivity()
                     .getApplicationContext().getContentResolver(),
                     Settings.System.EXPANDED_HIDE_ONCHANGE, 0) == 1));
-            mPowerWidgetHideScrollBar.setChecked((Settings.System.getInt(getActivity()
-                    .getApplicationContext().getContentResolver(),
-                    Settings.System.EXPANDED_HIDE_SCROLLBAR, 0) == 1));
             mPowerWidgetHapticFeedback.setValue(Integer.toString(Settings.System.getInt(
                     getActivity().getApplicationContext().getContentResolver(),
                     Settings.System.EXPANDED_HAPTIC_FEEDBACK, 2)));
@@ -143,11 +137,6 @@ public class PowerWidget extends AOKPPreferenceFragment implements
             value = mPowerWidgetHideOnChange.isChecked();
             Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
                     Settings.System.EXPANDED_HIDE_ONCHANGE,
-                    value ? 1 : 0);
-        } else if (preference == mPowerWidgetHideScrollBar) {
-            value = mPowerWidgetHideScrollBar.isChecked();
-            Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
-                    Settings.System.EXPANDED_HIDE_SCROLLBAR,
                     value ? 1 : 0);
         } else {
             // If we didn't handle it, let preferences handle it.

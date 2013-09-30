@@ -222,7 +222,7 @@ public class StatusBarToggles extends AOKPPreferenceFragment implements
         if (Integer.parseInt(mTogglesStyle.getValue()) > 1) {
             mFastToggle.setEnabled(false);
             mTogglesPerRow.setEnabled(false);
-            mSwipeToSwitch.setEnabled(false);
+            mSwipeToSwitch.setEnabled(true);
             mFastToggle.setSummary(R.string.enable_toggle_tiles);
             mTogglesPerRow.setSummary(R.string.enable_toggle_tiles);
             mChooseFastToggleSide.setSummary(R.string.enable_fasttoggle);
@@ -307,7 +307,7 @@ public class StatusBarToggles extends AOKPPreferenceFragment implements
                     : R.string.toggle_enable_fasttoggle_summary);
             mTogglesPerRow.setSummary(val > 1 ? R.string.enable_toggle_tiles
                     : R.string.toggles_per_row_summary);
-            mSwipeToSwitch.setSummary(val > 1 ? R.string.enable_toggle_tiles
+            mSwipeToSwitch.setSummary(val > 0 ? R.string.enable_toggle_tiles
                     : R.string.swipe_to_switch_summary);
             if (val > 1) {
                mChooseFastToggleSide.setSummary(R.string.enable_fasttoggle);

@@ -288,14 +288,14 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
         mListViewAnimation = (ListPreference) findPreference(KEY_LISTVIEW_ANIMATION);
         int listviewanimation = Settings.System.getInt(getActivity().getContentResolver(),
-            Settings.System.LISTVIEW_ANIMATION, 0);
+            Settings.System.LISTVIEW_ANIMATION, 2);
         mListViewAnimation.setValue(String.valueOf(listviewanimation));
         mListViewAnimation.setSummary(mListViewAnimation.getEntry());
         mListViewAnimation.setOnPreferenceChangeListener(this);
 
         mListViewInterpolator = (ListPreference) findPreference(KEY_LISTVIEW_INTERPOLATOR);
         int listviewinterpolator = Settings.System.getInt(getActivity().getContentResolver(),
-            Settings.System.LISTVIEW_INTERPOLATOR, 0);
+            Settings.System.LISTVIEW_INTERPOLATOR, 1);
         mListViewInterpolator.setValue(String.valueOf(listviewinterpolator));
         mListViewInterpolator.setSummary(mListViewInterpolator.getEntry());
         mListViewInterpolator.setOnPreferenceChangeListener(this);
