@@ -158,6 +158,16 @@
         android:id="@+id/misc"
         android:title="@string/header_misc" />
 
+    <header 
+        android:id="@+id/hosts"
+        android:icon="@drawable/ic_hosts"
+        android:title="@string/hosts_title">
+    <intent 
+        android:action="android.intent.action.MAIN"
+        android:targetPackage="com.dirtyunicorns.hfm"
+        android:targetClass="com.dirtyunicorns.hfm.MainActivity" />
+    </header>
+
    <header 
        android:id="@+id/themes"
        android:title="@string/themes_title"
