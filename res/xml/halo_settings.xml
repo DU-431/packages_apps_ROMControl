@@ -47,6 +47,7 @@
             android:key="halo_ninja"
             android:title="@string/halo_ninja_title"
             android:summary="@string/halo_ninja_summary"
+            android:dependency="halo_enabled"
             android:defaultValue="false" />
 
         <ListPreference
@@ -55,12 +56,14 @@
             android:title="@string/halo_notification_count_title"
             android:summary="@string/halo_notification_count_summary"
             android:entries="@array/entries_halo_notification_count"
+            android:dependency="halo_enabled"
             android:entryValues="@array/values_halo_notification_count" />
 
         <CheckBoxPreference
             android:key="halo_msgbox"
             android:title="@string/halo_notification_msgbox_title"
             android:summary="@string/halo_notification_msgbox_summary"
+            android:dependency="halo_enabled"
             android:defaultValue="true" />
 
         <ListPreference  
@@ -69,6 +72,7 @@
             android:title="@string/halo_msgbox_animation_title"
             android:summary="@string/halo_msgbox_animation_summary"
             android:entries="@array/entries_halo_msgbox_animation"
+            android:dependency="halo_enabled"
             android:entryValues="@array/values_halo_msgbox_animation" />
 
         <CheckBoxPreference
@@ -97,6 +101,7 @@
             android:key="halo_unlock_ping"
             android:title="@string/halo_unlock_ping_title"
             android:summary="@string/halo_unlock_ping_summary"
+            android:dependency="halo_enabled"
             android:defaultValue="false" />
 
         <CheckBoxPreference

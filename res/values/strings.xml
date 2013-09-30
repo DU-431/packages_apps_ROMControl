@@ -1435,13 +1435,13 @@
     <string name="halo_effect_color_summary">Requires a systemui restart</string>
     <string name="halo_settings_title">HALO™</string>
     <string name="halo_enabled_title">Enable HALO</string>
-    <string name="halo_enabled_summary">Completely enable or disable HALO</string>
+    <string name="halo_enabled_summary">Enable or disable HALO</string>
     <string name="halo_hide_title">Hide HALO after activity</string>
-    <string name="halo_hide_summary">HALO will appear for incoming tasks and scroll out of sight after a while</string>
+    <string name="halo_hide_summary">Hides HALO after incoming tasks</string>
     <string name="halo_reversed_title">Reverse HALO</string>
     <string name="halo_reversed_summary">Applies for task switching and HALO moving gestures</string>
     <string name="halo_state_title">HALO policy</string>
-    <string name="halo_state_summary">Enables black/white listing notifications shown in HALO</string>
+    <string name="halo_state_summary">Enables black/white listing notifications</string>
     <string name="halo_state_black">Black list</string>
     <string name="halo_state_white">White list</string>
     <string name="halo_pause_title">Pause active app</string>
