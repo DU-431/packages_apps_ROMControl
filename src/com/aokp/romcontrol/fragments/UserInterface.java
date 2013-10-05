@@ -117,6 +117,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String KEY_MISSED_CALL_BREATH = "missed_call_breath";
     private static final String KEY_STATUS_BAR_TRAFFIC = "status_bar_traffic";
     private static final CharSequence PREF_LONGPRESS_TO_KILL = "longpress_to_kill";
+    private static final String KEY_SEE_TRHOUGH = "see_through";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -162,6 +163,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     CheckBoxPreference mDarkUI;
     private CheckBoxPreference mStatusBarTraffic;
     private CheckBoxPreference mMissedCallBreath;
+    private CheckBoxPreference mSeeThrough;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -215,6 +217,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
         mCustomLabel = findPreference(PREF_CUSTOM_CARRIER_LABEL);
         updateCustomLabelTextSummary();
+
+        mSeeThrough = (CheckBoxPreference)findPreference(KEY_SEE_TRHOUGH);
+        mSeeThrough.setChecked(Settings.System.getBoolean(mContentRes,
+                Settings.System.LOCKSCREEN_SEE_THROUGH, false));
 
         mShowImeSwitcher = (CheckBoxPreference) findPreference(PREF_IME_SWITCHER);
         mShowImeSwitcher.setChecked(Settings.System.getBoolean(mContentResolver,
@@ -595,6 +601,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             boolean checked = ((TwoStatePreference) preference).isChecked();
             Settings.System.putBoolean(mContentResolver,
                     Settings.System.KILL_APP_LONGPRESS_BACK, checked);
+            return true;
+        } else if (preference == mSeeThrough) {
+            Settings.System.putInt(mContentRes,
+                    Settings.System.LOCKSCREEN_SEE_THROUGH,
+                    ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
             return true;
         } else if (preference == mRecentKillAll) {
             boolean checked = ((TwoStatePreference) preference).isChecked();
