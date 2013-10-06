@@ -495,8 +495,7 @@
     <string name="signal_style">Signal indicator style</string>
     <string name="signal_color_title">Signal text color</string>
     <string name="hide_signal_title">Hide signal bars</string>
-    <string name="hide_signal_summary">Checking this hides the signal bar indicator (updates when signal strength
-        changes)
+    <string name="hide_signal_summary">Checking this hides the signal bar indicator
     </string>
     <string name="wifi_signal_style">WiFi signal indicator style</string>
     <string name="wifi_signal_color_title">WiFi signal text color</string>

@@ -75,11 +75,12 @@ public class StatusBarSignal extends AOKPPreferenceFragment implements
         if (preference == mHideSignal) {
             Settings.System.putBoolean(mContentRes,
                     Settings.System.STATUSBAR_HIDE_SIGNAL_BARS, mHideSignal.isChecked());
-
+            Helpers.restartSystemUI();
             return true;
         } else if (preference == mAltSignal) {
             Settings.System.putBoolean(mContentRes,
                     Settings.System.STATUSBAR_SIGNAL_CLUSTER_ALT, mAltSignal.isChecked());
+            Helpers.restartSystemUI();
             return true;
         } else if (preference == mShow4gForLte) {
             Settings.System.putBoolean(mContentRes,
