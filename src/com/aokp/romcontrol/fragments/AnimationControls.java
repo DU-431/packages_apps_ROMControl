@@ -3,6 +3,8 @@ package com.aokp.romcontrol.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -57,6 +59,17 @@ public class AnimationControls extends AOKPPreferenceFragment implements OnPrefe
         addPreferencesFromResource(R.xml.prefs_animation_controls);
 
         PreferenceScreen prefs = getPreferenceScreen();
+        new AlertDialog.Builder(getActivity())
+        .setTitle(R.string.appletitle)
+        .setMessage(R.string.applejoke)
+        .setNegativeButton(R.string.apple,new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int id) {
+                finish();
+            }
+        })
+        .setPositiveButton(R.string.android, null)
+        .show();
+
         mAnimations = AwesomeAnimationHelper.getAnimationsList();
         int animqty = mAnimations.length;
         mAnimationsStrings = new String[animqty];

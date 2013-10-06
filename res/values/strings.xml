@@ -1614,4 +1614,10 @@
     <string name="color_five">Color five</string>
     <string name="color_six">Color six</string>
 
+    <!-- Apple Joke -->
+    <string name="applejoke">Animations like the ones you are about to use have been known to make iCrap users dizzy. \n\n Please pick what kind of user you are!!</string>
+    <string name="appletitle">WARNING</string>
+    <string name="apple">iSheep</string>
+    <string name="android">Android User</string>
+
 </resources>
