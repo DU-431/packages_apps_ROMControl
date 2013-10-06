@@ -1528,10 +1528,6 @@
     <string name="missed_call_breath">Breathing Missed Call</string>
     <string name="missed_call_breath_summary">Will give your missed call notifications a breathing effect on the statusbar.</string>
 
-    <!-- Network speed -->
-    <string name="show_network_speed">Network speed indicator</string>
-    <string name="show_network_speed_summary">Show network speed in statusbar</string>
-
     <!-- Performance Settings -->
     <string name="performance_settings_warning_header">Warning</string>
     <string name="performance_settings_warning_title">Proceed with Caution</string>
@@ -1622,5 +1618,10 @@
     <!-- MIUI-like carrier label -->
     <string name="show_carrier_label_title">MIUI-like Carrier Label</string>
     <string name="show_carrier_label_summary">Show MIUI-like carrier label in statusbar</string>
+
+    <!-- network usage stats -->
+    <string name="status_bar_network_title">Network traffic</string>
+    <string name="status_bar_show_network_stats_title">Show network speeds</string>
+    <string name="status_bar_network_stats_update_title">Update frequency</string>
 
 </resources>

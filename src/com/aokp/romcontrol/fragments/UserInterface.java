@@ -115,10 +115,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String PREF_LOW_BATTERY_WARNING_POLICY = "pref_low_battery_warning_policy";
     private static final CharSequence PREF_DARK_UI = "ui_inverted_mode";
     private static final String KEY_MISSED_CALL_BREATH = "missed_call_breath";
-    private static final String KEY_STATUS_BAR_TRAFFIC = "status_bar_traffic";
     private static final CharSequence PREF_LONGPRESS_TO_KILL = "longpress_to_kill";
     private static final String KEY_SEE_TRHOUGH = "see_through";
     private static final String STATUS_BAR_CARRIER_LABEL = "status_bar_carrier_label";
+    private static final String STATUS_BAR_NETWORK_STATS = "status_bar_show_network_stats";
+    private static final String STATUS_BAR_NETWORK_STATS_UPDATE = "status_bar_network_status_update";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -162,10 +163,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     ListPreference mListViewAnimation;
     ListPreference mListViewInterpolator;
     CheckBoxPreference mDarkUI;
-    private CheckBoxPreference mStatusBarTraffic;
     private CheckBoxPreference mMissedCallBreath;
     private CheckBoxPreference mSeeThrough;
     private CheckBoxPreference mStatusBarCarrierLabel;
+    private ListPreference mStatusBarNetStatsUpdate;
+    private CheckBoxPreference mStatusBarNetworkStats;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -255,6 +257,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mStatusBarCarrierLabel.setChecked(Settings.System.getInt(mContentResolver,
                 Settings.System.STATUS_BAR_CARRIER, 0) == 1);
 
+        mStatusBarNetworkStats = (CheckBoxPreference) findPreference(STATUS_BAR_NETWORK_STATS);
+        mStatusBarNetworkStats.setChecked(Settings.System.getInt(mContentResolver,
+                Settings.System.STATUS_BAR_NETWORK_STATS, 0) == 1);
+
         mRecentKillAll = (CheckBoxPreference) findPreference(PREF_RECENT_KILL_ALL);
         mRecentKillAll.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.RECENT_KILL_ALL_BUTTON, false));
@@ -277,10 +283,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                 Settings.System.EXPANDED_DESKTOP_STYLE, 0);
         mExpandedDesktopListPref.setValue(String.valueOf(expandedDesktopValue));
         updateExpandedDesktop(expandedDesktopValue);
-
-        mStatusBarTraffic = (CheckBoxPreference) findPreference(KEY_STATUS_BAR_TRAFFIC);
-        mStatusBarTraffic.setChecked(Settings.System.getBoolean(mContentResolver,
-                Settings.System.STATUS_BAR_TRAFFIC, false));
 
         mShowActionOverflow = (CheckBoxPreference) findPreference(PREF_SHOW_OVERFLOW);
         mShowActionOverflow.setChecked(Settings.System.getBoolean(mContentResolver,
@@ -620,6 +622,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                     ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
             Helpers.restartSystemUI();
             return true;
+        } else if (preference == mStatusBarNetworkStats) {
+            Settings.System.putInt(mContentRes,
+                    Settings.System.STATUS_BAR_NETWORK_STATS,
+                    ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
+            return true;
         } else if (preference == mRecentKillAll) {
             boolean checked = ((TwoStatePreference) preference).isChecked();
             Settings.System.putBoolean(mContentResolver,
@@ -670,11 +677,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         } else if (preference == mCrtOff) {
             Settings.System.putBoolean(mContentResolver,
                     Settings.System.SYSTEM_POWER_ENABLE_CRT_OFF,
-                    ((TwoStatePreference) preference).isChecked());
-            return true;
-        } else if (preference == mStatusBarTraffic) {
-            Settings.System.putBoolean(mContentResolver,
-                    Settings.System.STATUS_BAR_TRAFFIC,
                     ((TwoStatePreference) preference).isChecked());
             return true;
         } else if (preference == mMissedCallBreath) {
