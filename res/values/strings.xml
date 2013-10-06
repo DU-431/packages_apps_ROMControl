@@ -1619,4 +1619,8 @@
     <string name="apple">iSheep</string>
     <string name="android">Android User</string>
 
+    <!-- MIUI-like carrier label -->
+    <string name="show_carrier_label_title">MIUI-like Carrier Label</string>
+    <string name="show_carrier_label_summary">Show MIUI-like carrier label in statusbar</string>
+
 </resources>

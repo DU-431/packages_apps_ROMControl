@@ -118,6 +118,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String KEY_STATUS_BAR_TRAFFIC = "status_bar_traffic";
     private static final CharSequence PREF_LONGPRESS_TO_KILL = "longpress_to_kill";
     private static final String KEY_SEE_TRHOUGH = "see_through";
+    private static final String STATUS_BAR_CARRIER_LABEL = "status_bar_carrier_label";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -164,6 +165,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private CheckBoxPreference mStatusBarTraffic;
     private CheckBoxPreference mMissedCallBreath;
     private CheckBoxPreference mSeeThrough;
+    private CheckBoxPreference mStatusBarCarrierLabel;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -248,6 +250,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         if (!hasHardwareButtons) {
             getPreferenceScreen().removePreference(((PreferenceGroup) findPreference(PREF_MISC)));
         }
+
+        mStatusBarCarrierLabel = (CheckBoxPreference) findPreference(STATUS_BAR_CARRIER_LABEL);
+        mStatusBarCarrierLabel.setChecked(Settings.System.getInt(mContentResolver,
+                Settings.System.STATUS_BAR_CARRIER, 0) == 1);
 
         mRecentKillAll = (CheckBoxPreference) findPreference(PREF_RECENT_KILL_ALL);
         mRecentKillAll.setChecked(Settings.System.getBoolean(mContentResolver,
@@ -582,6 +588,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                             Intent i = new Intent();
                             i.setAction("com.aokp.romcontrol.LABEL_CHANGED");
                             mContext.sendBroadcast(i);
+                            Helpers.restartSystemUI();
                         }
                     });
             alert.setNegativeButton(getResources().getString(R.string.cancel),
@@ -606,6 +613,12 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putInt(mContentRes,
                     Settings.System.LOCKSCREEN_SEE_THROUGH,
                     ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
+            return true;
+        } else if (preference == mStatusBarCarrierLabel) {
+            Settings.System.putInt(mContentRes,
+                    Settings.System.STATUS_BAR_CARRIER,
+                    ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
+            Helpers.restartSystemUI();
             return true;
         } else if (preference == mRecentKillAll) {
             boolean checked = ((TwoStatePreference) preference).isChecked();
