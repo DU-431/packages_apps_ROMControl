@@ -89,8 +89,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final CharSequence PREF_CUSTOM_CARRIER_LABEL = "custom_carrier_label";
     private static final CharSequence PREF_SHOW_OVERFLOW = "show_overflow";
     private static final CharSequence PREF_VIBRATE_NOTIF_EXPAND = "vibrate_notif_expand";
-    private static final CharSequence PREF_RECENT_KILL_ALL = "recent_kill_all";
-    private static final CharSequence PREF_RECENT_GOOGLE_ASSIST = "recent_google_assist";
     private static final CharSequence PREF_RAM_USAGE_BAR = "ram_usage_bar";
     private static final CharSequence PREF_IME_SWITCHER = "ime_switcher";
     private static final CharSequence PREF_STATUSBAR_BRIGHTNESS = "statusbar_brightness_slider";
@@ -120,6 +118,8 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String STATUS_BAR_CARRIER_LABEL = "status_bar_carrier_label";
     private static final String STATUS_BAR_NETWORK_STATS = "status_bar_show_network_stats";
     private static final String STATUS_BAR_NETWORK_STATS_UPDATE = "status_bar_network_status_update";
+    private static final String PREF_RECENTS_STYLE = "pref_recents_style";
+    private static final String PREF_RECENTS_CLEAR = "pref_recents_clear";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -145,8 +145,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     CheckBoxPreference mShowActionOverflow;
     CheckBoxPreference mVibrateOnExpand;
     CheckBoxPreference mLongPressToKill;
-    CheckBoxPreference mRecentKillAll;
-    CheckBoxPreference mRecentGoog;
     CheckBoxPreference mRamBar;
     CheckBoxPreference mShowImeSwitcher;
     CheckBoxPreference mStatusbarSliderPreference;
@@ -163,6 +161,8 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     ListPreference mListViewAnimation;
     ListPreference mListViewInterpolator;
     CheckBoxPreference mDarkUI;
+    private ListPreference mRecentClear;
+    private ListPreference mRecentStyle;
     private CheckBoxPreference mMissedCallBreath;
     private CheckBoxPreference mSeeThrough;
     private CheckBoxPreference mStatusBarCarrierLabel;
@@ -261,14 +261,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mStatusBarNetworkStats.setChecked(Settings.System.getInt(mContentResolver,
                 Settings.System.STATUS_BAR_NETWORK_STATS, 0) == 1);
 
-        mRecentKillAll = (CheckBoxPreference) findPreference(PREF_RECENT_KILL_ALL);
-        mRecentKillAll.setChecked(Settings.System.getBoolean(mContentResolver,
-                Settings.System.RECENT_KILL_ALL_BUTTON, false));
-
-        mRecentGoog = (CheckBoxPreference) findPreference(PREF_RECENT_GOOGLE_ASSIST);
-        mRecentGoog.setChecked(Settings.System.getBoolean(mContentResolver,
-                Settings.System.RECENT_GOOGLE_ASSIST, false));
-
         mRamBar = (CheckBoxPreference) findPreference(PREF_RAM_USAGE_BAR);
         mRamBar.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.RAM_USAGE_BAR, false));
@@ -330,6 +322,20 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                 (CheckBoxPreference) findPreference(PREF_WAKEUP_WHEN_PLUGGED_UNPLUGGED);
         mWakeUpWhenPluggedOrUnplugged.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.WAKEUP_WHEN_PLUGGED_UNPLUGGED, true));
+
+        mRecentStyle = (ListPreference) findPreference(PREF_RECENTS_STYLE);
+        int RecentStyle = Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.RECENTS_STYLE, 0);
+        mRecentStyle.setValue(String.valueOf(RecentStyle));
+        mRecentStyle.setSummary(mRecentStyle.getEntry());
+        mRecentStyle.setOnPreferenceChangeListener(this);
+
+        mRecentClear = (ListPreference) findPreference(PREF_RECENTS_CLEAR);
+        int RecentClear = Settings.System.getInt(getActivity().getContentResolver(),
+                Settings.System.RECENTS_CLEAR, 0);
+        mRecentClear.setValue(String.valueOf(RecentClear));
+        mRecentClear.setSummary(mRecentClear.getEntry());
+        mRecentClear.setOnPreferenceChangeListener(this);
 
         mLsColorAlpha = (ColorPickerPreference) findPreference(PREF_LS_COLOR_ALPHA);
         mLsColorAlpha.setOnPreferenceChangeListener(this);
@@ -633,16 +639,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putInt(mContentRes,
                     Settings.System.STATUS_BAR_NETWORK_STATS,
                     ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
-            return true;
-        } else if (preference == mRecentKillAll) {
-            boolean checked = ((TwoStatePreference) preference).isChecked();
-            Settings.System.putBoolean(mContentResolver,
-                    Settings.System.RECENT_KILL_ALL_BUTTON, checked);
-            return true;
-        } else if (preference == mRecentGoog) {
-            boolean checked = ((TwoStatePreference) preference).isChecked();
-            Settings.System.putBoolean(mContentResolver,
-                    Settings.System.RECENT_GOOGLE_ASSIST, checked);
             return true;
         } else if (preference == mRamBar) {
             boolean checked = ((TwoStatePreference) preference).isChecked();
@@ -1253,6 +1249,21 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.POWER_UI_LOW_BATTERY_WARNING_POLICY, lowBatteryWarning);
             mLowBatteryWarning.setSummary(mLowBatteryWarning.getEntries()[index]);
+            return true;
+        } else if (preference == mRecentStyle) {
+            int recentstyle = Integer.valueOf((String) newValue);
+            int index = mRecentStyle.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.RECENTS_STYLE, recentstyle);
+            mRecentStyle.setSummary(mRecentStyle.getEntries()[index]);
+            Helpers.restartSystemUI();
+        } else if (preference == mRecentClear) {
+            int recentclear = Integer.valueOf((String) newValue);
+            int index = mRecentClear.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.RECENTS_CLEAR, recentclear);
+            mRecentClear.setSummary(mRecentClear.getEntries()[index]);
+            Helpers.restartSystemUI();
             return true;
         } else if (preference == mStatusBarNetStatsUpdate) {
             long updateInterval = Long.valueOf((String) newValue);

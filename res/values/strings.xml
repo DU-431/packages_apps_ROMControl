@@ -30,6 +30,7 @@
     <string name="weather">Weather</string>
     <string name="tools">Tools</string>
     <string name="installer">Installer</string>
+    <string name="recents_header">Recents</string>
 
     <!-- Activity titles defined in AndroidManifest.xml -->
     <string name="title_about">Show Your Support</string>
@@ -260,10 +261,7 @@
     <string name="rotate_180_summary">Checking this allows your device to rotate upside down</string>
     <string name="rotate_270_title">Allow 270-degree rotation</string>
     <string name="rotate_270_summary">Checking this allows your device to rotate to the right</string>
-    <string name="recent_kill_all">Enable Kill-All button</string>
     <string name="recent_kill_all_summary">Displays a button that kills all apps in the Recent Apps window</string>
-    <string name="recent_google_assist_title">Enable Google Now button</string>
-    <string name="recent_google_assist_summary">Displays a button to launch Google Now in the Recent Apps window</string>
     <string name="ram_bar">Recents RAM bar</string>
     <string name="ram_bar_summary">Shows RAM usage in the Recent Apps window</string>
     <string name="tablet_ui">Force Tablet UI</string>
@@ -1623,5 +1621,18 @@
     <string name="status_bar_network_title">Network traffic</string>
     <string name="status_bar_show_network_stats_title">Show network speeds</string>
     <string name="status_bar_network_stats_update_title">Update frequency</string>
+
+    <!-- Recents Clear -->
+    <string name="recents_kill_all">Kill-All</string>
+    <string name="recents_disable">Disable</string>
+    <string name="recents_bottom_right">Bottom Right</string>
+    <string name="recents_bottom_left">Bottom Left</string>
+    <string name="recents_top_right">Top Right</string>
+    <string name="recents_top_left">Top Left</string>
+
+    <!-- Recents Style -->
+    <string name="recents_style">Style</string>
+    <string name="recents_stock">Stock</string>
+    <string name="recents_rootbox">Modified</string>
 
 </resources>
