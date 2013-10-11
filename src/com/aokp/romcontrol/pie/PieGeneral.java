@@ -62,6 +62,7 @@ public class PieGeneral extends AOKPPreferenceFragment
     private static final String PIE_MENU = "pie_menu";
     private static final String PIE_SEARCH = "pie_search";
     private static final String PIE_RESTART = "pie_restart_launcher";
+    private static final String PIE_POWER = "pie_power";
 
     private ListPreference mPieMode;
     private ListPreference mPieSize;
@@ -80,6 +81,7 @@ public class PieGeneral extends AOKPPreferenceFragment
     private CheckBoxPreference mPieStick;
     private CheckBoxPreference mPieRestart;
     private SwitchPreference mPieControls;
+    private CheckBoxPreference mPiePower;
 
     private Context mContext;
     private int mAllowedLocations;
@@ -176,6 +178,10 @@ public class PieGeneral extends AOKPPreferenceFragment
         mPieActNotif.setChecked(Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.PIE_ACT_NOTIF, 0) == 1);
 
+        mPiePower = (CheckBoxPreference) prefSet.findPreference(PIE_POWER);
+        mPiePower.setChecked(Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.PIE_POWER, 0) == 1);
+
         mPieMenu = (CheckBoxPreference) prefSet.findPreference(PIE_MENU);
         mPieMenu.setChecked(Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.PIE_MENU, 1) == 1);
@@ -203,6 +209,9 @@ public class PieGeneral extends AOKPPreferenceFragment
         } else if (preference == mPieActNotif) {
             Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
                     Settings.System.PIE_ACT_NOTIF, mPieActNotif.isChecked() ? 1 : 0);
+        } else if (preference == mPiePower) {
+            Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
+                    Settings.System.PIE_POWER, mPiePower.isChecked() ? 1 : 0);
         } else if (preference == mPieMenu) {
             Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
                     Settings.System.PIE_MENU, mPieMenu.isChecked() ? 1 : 0);
