@@ -1580,7 +1580,7 @@
     <string name="pref_gpu_summary">Enable hardware acceleration where the GPU controls the UI instead of the CPU</string>
 
     <!-- Lockscreen See Through -->
-    <string name="lockscreen_seethrough">Lockscreen See through</string>
+    <string name="lockscreen_seethrough_title">Lockscreen See through</string>
     <string name="lockscreen_seethrough_summary">Allows you to see your home screen behind the lock screen/apps</string> 
 
     <!-- Tile background style and text color -->

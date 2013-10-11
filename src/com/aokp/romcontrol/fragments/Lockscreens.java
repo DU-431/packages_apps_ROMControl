@@ -99,6 +99,7 @@ public class Lockscreens extends AOKPPreferenceFragment implements
     private Switch mLockUnlimitedWidgetsSwitch;
     private Button mLockTextColorButton;
     private Switch mCameraWidgetSwitch;
+    private Switch mLockSeeThroughSwitch;
 
     private TextView mGlowTorchText;
     private TextView mLongPressText;
@@ -113,6 +114,7 @@ public class Lockscreens extends AOKPPreferenceFragment implements
     private TextView mLockAllWidgetsText;
     private TextView mLockUnlimitedWidgetsText;
     private TextView mCameraWidgetText;
+    private TextView mLockSeeThroughText;
 
     private ShortcutPickerHelper mPicker;
     private String[] targetActivities = new String[8];
@@ -381,6 +383,19 @@ public class Lockscreens extends AOKPPreferenceFragment implements
             }
         });
 
+        mLockSeeThroughText = ((TextView) getActivity().findViewById(R.id.lockscreen_seethrough_id));
+        mLockSeeThroughText.setOnClickListener(mLockSeeThroughTextListener);
+        mLockSeeThroughSwitch = (Switch) getActivity().findViewById(R.id.lockscreen_seethrough_switch);
+        mLockSeeThroughSwitch
+                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton v, boolean checked) {
+                        Settings.System.putBoolean(cr,
+                                Settings.System.LOCKSCREEN_SEE_THROUGH, checked);
+                        updateSwitches();
+                    }
+                });
+
         mCameraWidgetText = ((TextView) getActivity().findViewById(R.id.lockscreen_camera_widget_id));
         mCameraWidgetText.setOnClickListener(mCameraWidgetTextListener);
         mCameraWidgetSwitch = (Switch) getActivity().findViewById(R.id.lockscreen_camera_widget_switch);
@@ -525,6 +540,14 @@ public class Lockscreens extends AOKPPreferenceFragment implements
         }
     };
 
+    private TextView.OnClickListener mLockSeeThroughTextListener = new TextView.OnClickListener() {
+        public void onClick(View v) {
+            createMessage(
+                    getResources().getString(R.string.lockscreen_seethrough_title),
+                    getResources().getString(R.string.lockscreen_seethrough_summary));
+        }
+    };
+
     private TextView.OnClickListener mCameraWidgetTextListener = new TextView.OnClickListener() {
         public void onClick(View v) {
             createMessage(
@@ -556,6 +579,8 @@ public class Lockscreens extends AOKPPreferenceFragment implements
                 Settings.System.LOCKSCREEN_MINIMIZE_LOCKSCREEN_CHALLENGE, false));
         mLockCarouselSwitch.setChecked(Settings.System.getBoolean(cr,
                 Settings.System.LOCKSCREEN_USE_WIDGET_CONTAINER_CAROUSEL, false));
+        mLockSeeThroughSwitch.setChecked(Settings.System.getBoolean(cr,
+                Settings.System.LOCKSCREEN_SEE_THROUGH, false));
         mCameraWidgetSwitch.setChecked(Settings.System.getBoolean(cr,
                 Settings.System.LOCKSCREEN_CAMERA_WIDGET_SHOW, true));
     }

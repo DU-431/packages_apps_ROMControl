@@ -230,11 +230,6 @@
             android:entryValues="@array/pref_low_battery_warning_policy_values"
             android:defaultValue="0" />
 
-        <CheckBoxPreference
-            android:key="see_through"
-            android:title="@string/lockscreen_seethrough"
-            android:summary="@string/lockscreen_seethrough_summary" /> 
-
         <Preference
             android:key="lockscreen_wallpaper"
             android:title="@string/lockscreen_wallpaper_title"

@@ -114,7 +114,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final CharSequence PREF_DARK_UI = "ui_inverted_mode";
     private static final String KEY_MISSED_CALL_BREATH = "missed_call_breath";
     private static final CharSequence PREF_LONGPRESS_TO_KILL = "longpress_to_kill";
-    private static final String KEY_SEE_TRHOUGH = "see_through";
     private static final String STATUS_BAR_CARRIER_LABEL = "status_bar_carrier_label";
     private static final String STATUS_BAR_NETWORK_STATS = "status_bar_show_network_stats";
     private static final String STATUS_BAR_NETWORK_STATS_UPDATE = "status_bar_network_status_update";
@@ -164,7 +163,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private ListPreference mRecentClear;
     private ListPreference mRecentStyle;
     private CheckBoxPreference mMissedCallBreath;
-    private CheckBoxPreference mSeeThrough;
     private CheckBoxPreference mStatusBarCarrierLabel;
     private ListPreference mStatusBarNetStatsUpdate;
     private CheckBoxPreference mStatusBarNetworkStats;
@@ -221,10 +219,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
         mCustomLabel = findPreference(PREF_CUSTOM_CARRIER_LABEL);
         updateCustomLabelTextSummary();
-
-        mSeeThrough = (CheckBoxPreference)findPreference(KEY_SEE_TRHOUGH);
-        mSeeThrough.setChecked(Settings.System.getBoolean(mContentRes,
-                Settings.System.LOCKSCREEN_SEE_THROUGH, false));
 
         mShowImeSwitcher = (CheckBoxPreference) findPreference(PREF_IME_SWITCHER);
         mShowImeSwitcher.setChecked(Settings.System.getBoolean(mContentResolver,
@@ -623,11 +617,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             boolean checked = ((TwoStatePreference) preference).isChecked();
             Settings.System.putBoolean(mContentResolver,
                     Settings.System.KILL_APP_LONGPRESS_BACK, checked);
-            return true;
-        } else if (preference == mSeeThrough) {
-            Settings.System.putInt(mContentRes,
-                    Settings.System.LOCKSCREEN_SEE_THROUGH,
-                    ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
             return true;
         } else if (preference == mStatusBarCarrierLabel) {
             Settings.System.putInt(mContentRes,
