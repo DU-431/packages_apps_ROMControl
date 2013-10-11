@@ -59,6 +59,12 @@
         android:summary="@string/ribbon_settings_summary" />
 
     <header
+        android:id="@+id/pie_controls"
+        android:fragment="com.aokp.romcontrol.pie.PieTab"
+        android:title="@string/pie_controls_title"
+        android:icon="@drawable/ic_pie" />
+
+    <header
         android:id="@+id/statusbar"
         android:title="@string/header_statusbar" />
 

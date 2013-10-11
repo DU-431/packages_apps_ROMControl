@@ -2,5 +2,7 @@
 
     <color name="extension_list_item_color">#ffc9c9c9</color>
     <color name="configure_light_background">#00000000</color>
+    <color name="color_text_holo_dark">#FFFFFF</color>
+    <color name="color_pager_tab_strip">#2c2c2c</color>
 
 </resources>
