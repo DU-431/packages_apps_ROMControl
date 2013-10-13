@@ -117,6 +117,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String STATUS_BAR_CARRIER_LABEL = "status_bar_carrier_label";
     private static final String STATUS_BAR_NETWORK_STATS = "status_bar_show_network_stats";
     private static final String STATUS_BAR_NETWORK_STATS_UPDATE = "status_bar_network_status_update";
+    private static final String STATUS_BAR_NETWORK_COLOR = "status_bar_network_color";
     private static final String PREF_RECENTS_STYLE = "pref_recents_style";
     private static final String PREF_RECENTS_CLEAR = "pref_recents_clear";
 
@@ -166,6 +167,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private CheckBoxPreference mStatusBarCarrierLabel;
     private ListPreference mStatusBarNetStatsUpdate;
     private CheckBoxPreference mStatusBarNetworkStats;
+    private ColorPickerPreference mNetworkColor;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -254,6 +256,20 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mStatusBarNetworkStats = (CheckBoxPreference) findPreference(STATUS_BAR_NETWORK_STATS);
         mStatusBarNetworkStats.setChecked(Settings.System.getInt(mContentResolver,
                 Settings.System.STATUS_BAR_NETWORK_STATS, 0) == 1);
+
+        mNetworkColor = (ColorPickerPreference) findPreference(STATUS_BAR_NETWORK_COLOR);
+        mNetworkColor.setOnPreferenceChangeListener(this);
+        int intNetworkColor = Settings.System.getInt(getActivity().getContentResolver(),
+                    Settings.System.STATUSBAR_NETWORK_COLOR, -2);
+        if (intNetworkColor == -2) {
+            intNetworkColor = getResources().getColor(
+                    com.android.internal.R.color.holo_blue_light);
+            mNetworkColor.setSummary(getResources().getString(R.string.color_default));
+        } else {
+            String hexColor = String.format("#%08x", (0xffffffff & intNetworkColor));
+            mNetworkColor.setSummary(hexColor);
+        }
+        mNetworkColor.setNewPreviewColor(intNetworkColor);
 
         mRamBar = (CheckBoxPreference) findPreference(PREF_RAM_USAGE_BAR);
         mRamBar.setChecked(Settings.System.getBoolean(mContentResolver,
@@ -1260,6 +1276,14 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putLong(getActivity().getApplicationContext().getContentResolver(),
                     Settings.System.STATUS_BAR_NETWORK_STATS_UPDATE_INTERVAL, updateInterval);
             mStatusBarNetStatsUpdate.setSummary(mStatusBarNetStatsUpdate.getEntries()[index]);
+            return true;
+        } else if (preference == mNetworkColor) {
+            String hex = ColorPickerPreference.convertToARGB(Integer.valueOf(String
+                    .valueOf(newValue)));
+            preference.setSummary(hex);
+            int intHex = ColorPickerPreference.convertToColorInt(hex);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.STATUSBAR_NETWORK_COLOR, intHex);
             return true;
         } else if (preference == mExpandedDesktopListPref) {
             int expandedDesktopValue = Integer.valueOf((String) newValue);

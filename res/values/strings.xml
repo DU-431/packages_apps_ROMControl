@@ -1621,6 +1621,10 @@
     <string name="status_bar_network_title">Network traffic</string>
     <string name="status_bar_show_network_stats_title">Show network speeds</string>
     <string name="status_bar_network_stats_update_title">Update frequency</string>
+    <string name="status_bar_icon_color_reset">Reset icon color</string>
+    <string name="status_bar_network_color_title">Network color</string>
+    <string name="status_bar_network_color_reset">Reset network color</string>
+    <string name="color_default">Default</string>
 
     <!-- Recents Clear -->
     <string name="recents_kill_all">Kill-All</string>
