@@ -236,6 +236,11 @@
             android:entryValues="@array/pref_low_battery_warning_policy_values"
             android:defaultValue="0" />
 
+        <CheckBoxPreference
+            android:key="battery_around_lockscreen_ring"
+            android:title="@string/battery_around_lockscreen_ring"
+            android:defaultValue="false" />
+
         <Preference
             android:key="lockscreen_wallpaper"
             android:title="@string/lockscreen_wallpaper_title"

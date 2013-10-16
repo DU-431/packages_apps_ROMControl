@@ -1722,4 +1722,7 @@
     <string name="pie_power_title">Power button</string>
     <string name="pie_power_summary">Enable power button on Pie</string>
 
+    <!-- Lockscreen Ring Battery -->
+    <string name="battery_around_lockscreen_ring">Battery level around lock ring</string>
+
 </resources>
