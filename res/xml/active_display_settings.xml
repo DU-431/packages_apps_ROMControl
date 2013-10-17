@@ -32,6 +32,13 @@
         android:dependency="ad_enable"/>
 
     <CheckBoxPreference
+        android:key="ad_hide_low_priority"
+        android:persistent="false"
+        android:title="@string/ad_hide_low_priority_title"
+        android:summary="@string/ad_hide_low_priority_summary"
+        android:dependency="ad_enable"/>
+
+    <CheckBoxPreference
         android:key="ad_all_notifications"
         android:persistent="false"
         android:title="@string/ad_all_notifications_title"
@@ -59,6 +66,15 @@
         android:title="@string/ad_redisplay_title"
         android:entries="@array/ad_redisplay_entries"
         android:entryValues="@array/ad_redisplay_values"
+        android:dependency="ad_enable"/>
+
+    <ListPreference
+        android:key="ad_displayactive"
+        android:persistent="false"
+        android:dialogTitle="@string/ad_displayactive_title"
+        android:title="@string/ad_displayactive_title"
+        android:entries="@array/ad_displayactive_entries"
+        android:entryValues="@array/ad_displayactive_values"
         android:dependency="ad_enable"/>
 
     <PreferenceCategory
