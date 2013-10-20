@@ -149,14 +149,14 @@
             android:title="@string/recents_kill_all"
             android:entries="@array/recents_clear_entries"
             android:entryValues="@array/recents_clear_values"
-            android:defaultValue="0" />
+            android:defaultValue="2" />
 
         <ListPreference
             android:key="pref_recents_style"
             android:title="@string/recents_style"
             android:entries="@array/recents_style_entries"
             android:entryValues="@array/recents_style_values"
-            android:defaultValue="0" />
+            android:defaultValue="1" />
 
         <CheckBoxPreference
             android:key="ram_usage_bar"

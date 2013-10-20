@@ -361,14 +361,14 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
 
         mRecentStyle = (ListPreference) findPreference(PREF_RECENTS_STYLE);
         int RecentStyle = Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.RECENTS_STYLE, 0);
+                Settings.System.RECENTS_STYLE, 1);
         mRecentStyle.setValue(String.valueOf(RecentStyle));
         mRecentStyle.setSummary(mRecentStyle.getEntry());
         mRecentStyle.setOnPreferenceChangeListener(this);
 
         mRecentClear = (ListPreference) findPreference(PREF_RECENTS_CLEAR);
         int RecentClear = Settings.System.getInt(getActivity().getContentResolver(),
-                Settings.System.RECENTS_CLEAR, 0);
+                Settings.System.RECENTS_CLEAR, 2);
         mRecentClear.setValue(String.valueOf(RecentClear));
         mRecentClear.setSummary(mRecentClear.getEntry());
         mRecentClear.setOnPreferenceChangeListener(this);
