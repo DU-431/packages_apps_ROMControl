@@ -12,6 +12,9 @@
     <!-- Whether device has hardware buttons -->
     <bool name="has_hardware_buttons">false</bool>
 
+    <!-- Whether device has hardware buttons -->
+    <bool name="has_advanced_settings">false</bool>
+
     <!-- Whether can use fast chage -->
     <bool name="has_fast_charge">true</bool>
 
