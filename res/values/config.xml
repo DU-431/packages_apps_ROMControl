@@ -29,4 +29,7 @@
 
     <!-- Show Expanded Desktop preference -->
     <bool name="config_show_expandedDesktop">true</bool>
+
+    <!-- Whether device has button leds -->
+    <bool name="has_button_led">true</bool>
 </resources>
