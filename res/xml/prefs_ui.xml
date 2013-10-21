@@ -52,6 +52,20 @@
             android:defaultValue="false" />
 
         <CheckBoxPreference
+            android:key="missed_call_breath"
+            android:title="@string/missed_call_breath"
+            android:summary="@string/missed_call_breath_summary"
+            android:defaultValue="false" />
+
+        <ListPreference
+            android:key="pref_low_battery_warning_policy"
+            android:title="@string/pref_low_battery_warning_policy_title"
+            android:dialogTitle="@string/pref_low_battery_warning_policy_dialog_title"
+            android:entries="@array/pref_low_battery_warning_policy_entries"
+            android:entryValues="@array/pref_low_battery_warning_policy_values"
+            android:defaultValue="0" />
+
+        <CheckBoxPreference
             android:key="vibrate_notif_expand"
             android:title="@string/vibrate_notif_expand_title"
             android:summary="@string/vibrate_notif_expand_summary" />
@@ -101,6 +115,18 @@
     <Preference
         android:key="transparency_dialog"
         android:title="@string/transparency_dialog_title" />
+
+        <Preference
+            android:key="lockscreen_wallpaper"
+            android:title="@string/lockscreen_wallpaper_title"
+            android:summary="@string/lockscreen_wallpaper_summary" />
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="lock_color_alpha"
+            android:title="@string/ls_color_alpha_title"
+            android:summary="@string/ls_color_alpha_summary"
+            android:defaultValue="0x70000000"
+            alphaSlider="true" />
 
         <CheckBoxPreference
             android:key="show_overflow"
@@ -199,12 +225,6 @@
             android:title="@string/longpress_to_kill"
             android:summary="@string/longpress_to_kill_summary" />
 
-        <CheckBoxPreference
-            android:key="missed_call_breath"
-            android:title="@string/missed_call_breath"
-            android:summary="@string/missed_call_breath_summary"
-            android:defaultValue="false" /> 
-
         <ListPreference
             android:key="expanded_desktop"
             android:title="@string/power_menu_expanded_desktop"
@@ -217,31 +237,6 @@
             android:title="@string/auto_hide_statusbar"
             android:summary="@string/auto_hide_statusbar_summary"
             android:defaultValue="false" />
-
-        <ListPreference
-            android:key="pref_low_battery_warning_policy"
-            android:title="@string/pref_low_battery_warning_policy_title"
-            android:dialogTitle="@string/pref_low_battery_warning_policy_dialog_title"
-            android:entries="@array/pref_low_battery_warning_policy_entries"
-            android:entryValues="@array/pref_low_battery_warning_policy_values"
-            android:defaultValue="0" />
-
-        <CheckBoxPreference
-            android:key="battery_around_lockscreen_ring"
-            android:title="@string/battery_around_lockscreen_ring"
-            android:defaultValue="false" />
-
-        <Preference
-            android:key="lockscreen_wallpaper"
-            android:title="@string/lockscreen_wallpaper_title"
-            android:summary="@string/lockscreen_wallpaper_summary" />
-
-        <net.margaritov.preference.colorpicker.ColorPickerPreference
-            android:key="lock_color_alpha"
-            android:title="@string/ls_color_alpha_title"
-            android:summary="@string/ls_color_alpha_summary"
-            android:defaultValue="0x70000000"
-            alphaSlider="true" />
 
         <PreferenceScreen
             android:key="lock_clock"

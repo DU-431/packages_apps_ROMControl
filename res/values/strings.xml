@@ -1716,7 +1716,8 @@
     <string name="pie_power_summary">Enable power button on Pie</string>
 
     <!-- Lockscreen Ring Battery -->
-    <string name="battery_around_lockscreen_ring">Battery level around lock ring</string>
+    <string name="lockscreen_battery_around_lockscreen_ring_title">Battery level around lock ring</string>
+    <string name="lockscreen_battery_around_lockscreen_ring_summary">Set to show battery level indicator around lock ring.</string>
 
     <!-- LCD Density -->
     <string name="dpi">DPI</string>
