@@ -128,6 +128,7 @@
     <string name="title_show_power_keyguard">Power off on lockscreen</string>
     <string name="summary_show_reboot_keyguard">Enabling this will show reboot options while on lockscreen</string>
     <string name="power_menu_expanded_desktop">Expanded desktop</string>
+    <string name="power_menu_expanded_desktop_summary">Config in General UI</string>
     <string name="summary_expanded_desktop">%1$s</string>
     <string name="expanded_desktop_summary_status_bar">With status bar</string>
     <string name="expanded_desktop_summary_no_status_bar">Without status bar</string>
