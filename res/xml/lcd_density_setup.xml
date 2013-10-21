@@ -1,11 +1,6 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Preference
-        android:title="@string/follow_through_title"
-        android:summary="@string/follow_through_summary"
-        android:selectable="false" />
-
     <ListPreference	
         android:entries="@array/lcd_density_stock_entries"
         android:entryValues="@array/lcd_density_stock_values"
@@ -22,7 +17,6 @@
 
     <Preference
         android:key="reboot"
-        android:title="@string/reboot_title"
-        android:summary="@string/reboot_summary" />
+        android:title="@string/reboot_title" />
 
 </PreferenceScreen>
