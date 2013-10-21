@@ -1792,4 +1792,10 @@
     <string name="lcd_warning_yes">YES</string>
     <string name="lcd_warning_no">NO</string>
 
+    <!-- Statusbar swipe options -->
+    <string name="statusbar_quick_peek_title">Quick Peek</string>
+    <string name="statusbar_quick_peek_summary">Peek at statusbar by swiping from top edge of screen</string>
+    <string name="statusbar_swipe_timeout_title">Statusbar timeout</string>
+    <string name="statusbar_swipe_timeout_summary">Timeout for showing the statusbar</string>
+
 </resources>
