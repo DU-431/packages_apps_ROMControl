@@ -125,6 +125,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String PREF_RECENTS_STYLE = "pref_recents_style";
     private static final String PREF_RECENTS_CLEAR = "pref_recents_clear";
     private static final String BATTERY_AROUND_LOCKSCREEN_RING = "battery_around_lockscreen_ring";
+    private static final String STATUS_BAR_AUTO_HIDE = "status_bar_auto_hide";
 
     private static final int REQUEST_PICK_WALLPAPER = 201;
     //private static final int REQUEST_PICK_CUSTOM_ICON = 202; //unused
@@ -176,6 +177,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private CheckBoxPreference mStatusBarNetworkStats;
     private ColorPickerPreference mNetworkColor;
     private CheckBoxPreference mLockRingBattery;
+    private CheckBoxPreference mStatusBarAutoHide;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -282,6 +284,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mStatusBarNetworkStats = (CheckBoxPreference) findPreference(STATUS_BAR_NETWORK_STATS);
         mStatusBarNetworkStats.setChecked(Settings.System.getInt(mContentResolver,
                 Settings.System.STATUS_BAR_NETWORK_STATS, 0) == 1);
+
+        mStatusBarAutoHide = (CheckBoxPreference) findPreference(STATUS_BAR_AUTO_HIDE);
+        mStatusBarAutoHide.setChecked(Settings.System.getInt(mContentResolver,
+                Settings.System.AUTO_HIDE_STATUSBAR, 0) == 1);
 
         mNetworkColor = (ColorPickerPreference) findPreference(STATUS_BAR_NETWORK_COLOR);
         mNetworkColor.setOnPreferenceChangeListener(this);
@@ -669,6 +675,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         } else if (preference == mStatusBarNetworkStats) {
             Settings.System.putInt(mContentRes,
                     Settings.System.STATUS_BAR_NETWORK_STATS,
+                    ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
+            return true;
+        } else if (preference == mStatusBarAutoHide) {
+            Settings.System.putInt(mContentRes,
+                    Settings.System.AUTO_HIDE_STATUSBAR,
                     ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
             return true;
         } else if (preference == mLockRingBattery) {
