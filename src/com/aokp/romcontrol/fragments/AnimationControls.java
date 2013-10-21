@@ -33,6 +33,8 @@ public class AnimationControls extends AOKPPreferenceFragment implements OnPrefe
     private static final String WALLPAPER_CLOSE = "wallpaper_close";
     private static final String WALLPAPER_INTRA_OPEN = "wallpaper_intra_open";
     private static final String WALLPAPER_INTRA_CLOSE = "wallpaper_intra_close";
+    private static final String KEY_LISTVIEW_ANIMATION = "listview_animation";
+    private static final String KEY_LISTVIEW_INTERPOLATOR = "listview_interpolator";
 
     ListPreference mActivityOpenPref;
     ListPreference mActivityClosePref;
@@ -46,6 +48,8 @@ public class AnimationControls extends AOKPPreferenceFragment implements OnPrefe
     ListPreference mWallpaperIntraClose;
     AnimBarPreference mAnimationDuration;
     CheckBoxPreference mAnimNoOverride;
+    ListPreference mListViewAnimation;
+    ListPreference mListViewInterpolator;
 
     private int[] mAnimations;
     private String[] mAnimationsStrings;
@@ -137,6 +141,20 @@ public class AnimationControls extends AOKPPreferenceFragment implements OnPrefe
         mWallpaperIntraOpen.setEntries(mAnimationsStrings);
         mWallpaperIntraOpen.setEntryValues(mAnimationsNum);
 
+        mListViewAnimation = (ListPreference) findPreference(KEY_LISTVIEW_ANIMATION);
+        int listviewanimation = Settings.System.getInt(getActivity().getContentResolver(),
+            Settings.System.LISTVIEW_ANIMATION, 2);
+        mListViewAnimation.setValue(String.valueOf(listviewanimation));
+        mListViewAnimation.setSummary(mListViewAnimation.getEntry());
+        mListViewAnimation.setOnPreferenceChangeListener(this);
+
+        mListViewInterpolator = (ListPreference) findPreference(KEY_LISTVIEW_INTERPOLATOR);
+        int listviewinterpolator = Settings.System.getInt(getActivity().getContentResolver(),
+            Settings.System.LISTVIEW_INTERPOLATOR, 1);
+        mListViewInterpolator.setValue(String.valueOf(listviewinterpolator));
+        mListViewInterpolator.setSummary(mListViewInterpolator.getEntry());
+        mListViewInterpolator.setOnPreferenceChangeListener(this);
+
         mWallpaperIntraClose = (ListPreference) findPreference(WALLPAPER_INTRA_CLOSE);
         mWallpaperIntraClose.setOnPreferenceChangeListener(this);
         mWallpaperIntraClose.setSummary(getProperSummary(mWallpaperIntraClose));
@@ -209,6 +227,20 @@ public class AnimationControls extends AOKPPreferenceFragment implements OnPrefe
             int val = Integer.parseInt((String) newValue);
             result = Settings.System.putInt(mContentRes,
                     Settings.System.ACTIVITY_ANIMATION_CONTROLS[7], val);
+        } else if (preference == mListViewAnimation) {
+            int listviewanimation = Integer.valueOf((String) newValue);
+            int index = mListViewAnimation.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.LISTVIEW_ANIMATION,
+                    listviewanimation);
+            mListViewAnimation.setSummary(mListViewAnimation.getEntries()[index]);
+        } else if (preference == mListViewInterpolator) {
+            int listviewinterpolator = Integer.valueOf((String) newValue);
+            int index = mListViewInterpolator.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.LISTVIEW_INTERPOLATOR,
+                    listviewinterpolator);
+            mListViewInterpolator.setSummary(mListViewInterpolator.getEntries()[index]);
         } else if (preference == mWallpaperIntraOpen) {
 
             int val = Integer.parseInt((String) newValue);

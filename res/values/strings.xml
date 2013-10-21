@@ -1358,6 +1358,7 @@
     <string name="title_animation_no_override">Prevent App Overrides</string>
     <string name="summary_animation_no_override">Prevent apps from overriding transitions.</string>
     <string name="animation_duration_default">Default</string>
+    <string name="system_animations_header_title">System Animations</string>
 
     <!-- screen state service -->
     <string name="screen_state_toggles_title">Suspend Actions</string>
@@ -1395,6 +1396,7 @@
     <string name="listview_fold">Fold</string>
     <string name="listview_translate_left">Translate (Left)</string>
     <string name="listview_translate_right">Translate (Right)</string>
+    <string name="listview_header_title">List View Animations</string>
 
     <!-- ListView interpolator -->
     <string name="listview_interpolator_title">ListView Interpolator</string>
