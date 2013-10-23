@@ -7,7 +7,6 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.FragmentTransaction;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,8 +24,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.RemoteException;
-import android.os.ServiceManager;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -39,7 +36,6 @@ import android.provider.Settings;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.Display;
-import android.view.IWindowManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -135,7 +131,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String LOCKSCREEN_WALLPAPER_NAME = "lockscreen_wallpaper.jpg";
     private static final String BOOTANIMATION_USER_PATH = "/data/local/bootanimation.zip";
     private static final String BOOTANIMATION_SYSTEM_PATH = "/system/media/bootanimation.zip";
-    private static final String KEY_HARDWARE_KEYS = "hardware_keys";
 
     CheckBoxPreference mAllow180Rotation;
     CheckBoxPreference mAllow270Rotation;
@@ -146,7 +141,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     Preference mWallpaperAlpha;
     Preference mCustomLabel;
     Preference mCustomBootAnimation;
-    Preference mHardwareKeys;
     ImageView mView;
     TextView mError;
     CheckBoxPreference mShowActionOverflow;
@@ -228,20 +222,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mDisableBootAnimation = (CheckBoxPreference) findPreference(PREF_DISABLE_BOOTANIM);
 
         mCustomBootAnimation = findPreference(PREF_CUSTOM_BOOTANIM);
-
-        mHardwareKeys = (Preference) findPreference(KEY_HARDWARE_KEYS);
-
-        IWindowManager windowManager = IWindowManager.Stub.asInterface(
-                ServiceManager.getService(Context.WINDOW_SERVICE));
-        try {
-            if (windowManager.hasNavigationBar()) {
-                getPreferenceScreen().removePreference(findPreference(KEY_HARDWARE_KEYS));
-            } else {
-                // should not need to remove anything
-            }
-        } catch (RemoteException e) {
-            // Do nothing
-        }
 
         mCustomLabel = findPreference(PREF_CUSTOM_CARRIER_LABEL);
         updateCustomLabelTextSummary();
@@ -1260,13 +1240,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.SYSTEM_POWER_CRT_MODE, crtMode);
             mCrtMode.setSummary(mCrtMode.getEntries()[index]);
-            return true;
-        } else if (preference == mHardwareKeys) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            HardwareKeys fragment = new HardwareKeys();
-            ft.addToBackStack("hardware_keys_binding");
-            ft.replace(this.getId(), fragment);
-            ft.commit();
             return true;
         } else if (preference == mLsColorAlpha) {
             String hex = ColorPickerPreference.convertToARGB(Integer.valueOf(String.valueOf(newValue)));
