@@ -10,9 +10,9 @@ import android.preference.PreferenceScreen;
 import com.aokp.romcontrol.R;
 import com.aokp.romcontrol.AOKPPreferenceFragment;
 
-public class AppListPreference extends AOKPPreferenceFragment {
+public class WidgetListPreference extends AOKPPreferenceFragment {
 
-    private PreferenceCategory mAppList;
+    private PreferenceCategory mWidgetList;
     private Context mContext;
 
     @Override
@@ -20,15 +20,15 @@ public class AppListPreference extends AOKPPreferenceFragment {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
 
-        addPreferencesFromResource(R.xml.dpi_group_app_list);
+        addPreferencesFromResource(R.xml.widget_list);
 
         final PreferenceScreen prefSet = getPreferenceScreen();
 
-        mAppList = (PreferenceCategory) prefSet.findPreference("dpi_group_app_list");
+        mWidgetList = (PreferenceCategory) prefSet.findPreference("widget_list");
 
         Applications.AppInfo[] items = Applications.getApplicationList(mContext);
 
-        mAppList.removeAll();
+        mWidgetList.removeAll();
 
         for (int i = 0; i < items.length; i++) {
             Preference pref = new Preference(mContext);
@@ -42,12 +42,12 @@ public class AppListPreference extends AOKPPreferenceFragment {
             pref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
                 public boolean onPreferenceClick(final Preference preference) {
-                    Applications.addApplication(mContext, preference.getKey());
+                    Applications.addWidget(mContext, preference.getKey());
                     getActivity().getFragmentManager().popBackStackImmediate();
                     return false;
                 }
             });
-            mAppList.addPreference(pref);
+            mWidgetList.addPreference(pref);
         }
 
     }

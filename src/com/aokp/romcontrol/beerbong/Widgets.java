@@ -12,14 +12,12 @@ import android.preference.PreferenceScreen;
 import com.aokp.romcontrol.R;
 import com.aokp.romcontrol.AOKPPreferenceFragment;
 
-public class DpiGroupFragment extends AOKPPreferenceFragment {
+public class Widgets extends AOKPPreferenceFragment {
 
-    private PreferenceCategory mAppList;
+    private PreferenceCategory mWidgetList;
     private Context mContext;
 
-    private int mDpi = -1;
-
-    public DpiGroupFragment() {
+    public Widgets() {
 
     }
 
@@ -27,28 +25,15 @@ public class DpiGroupFragment extends AOKPPreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // mDpi = getArguments().getInt("dpi");
-
         mContext = getActivity();
 
-        addPreferencesFromResource(R.xml.dpi_group);
+        addPreferencesFromResource(R.xml.widgets);
 
         PreferenceScreen prefSet = getPreferenceScreen();
 
-        PreferenceCategory tit = (PreferenceCategory) prefSet.findPreference("dpi_group_fragment_title");
-        tit.setTitle(getDpi() + " DPI");
-
-        mAppList = (PreferenceCategory) prefSet.findPreference("app_list");
+        mWidgetList = (PreferenceCategory) prefSet.findPreference("widget_list");
 
         updateList();
-    }
-
-    public int getDpi() {
-        return mDpi;
-    }
-
-    public void setDpi(int dpi) {
-        mDpi = dpi;
     }
 
     @Override
@@ -59,9 +44,9 @@ public class DpiGroupFragment extends AOKPPreferenceFragment {
 
     private void updateList() {
 
-        Applications.AppInfo[] items = Applications.getApplicationList(mContext, getDpi());
+        Applications.AppInfo[] items = Applications.getWidgetList(mContext);
 
-        mAppList.removeAll();
+        mWidgetList.removeAll();
 
         for (int i = 0; i < items.length; i++) {
             Preference pref = new Preference(mContext);
@@ -76,11 +61,11 @@ public class DpiGroupFragment extends AOKPPreferenceFragment {
 
                 public boolean onPreferenceClick(final Preference preference) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-                    alert.setTitle(R.string.dpi_groups_alert_remove_app);
+                    alert.setTitle(R.string.widget_alert_remove_widget);
 
                     String title = (String) preference.getTitle();
 
-                    String summary = mContext.getResources().getString(R.string.dpi_groups_remove_app,
+                    String summary = mContext.getResources().getString(R.string.widget_remove_widget,
                             new Object[] { title });
 
                     alert.setMessage(summary);
@@ -89,7 +74,7 @@ public class DpiGroupFragment extends AOKPPreferenceFragment {
 
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
-                            Applications.removeApplication(mContext, preference.getKey());
+                            Applications.removeWidget(mContext, preference.getKey());
                             updateList();
                         }
                     });
@@ -105,7 +90,7 @@ public class DpiGroupFragment extends AOKPPreferenceFragment {
                     return false;
                 }
             });
-            mAppList.addPreference(pref);
+            mWidgetList.addPreference(pref);
         }
     }
 }

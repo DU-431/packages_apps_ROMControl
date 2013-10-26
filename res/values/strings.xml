@@ -1780,5 +1780,12 @@
     <string name="navbar_height_title">Navigation bar Height</string>
     <string name="alert_reboot">Reboot needed</string>
     <string name="alert_reboot_message">This change needs a reboot to be applied. Do you want to reboot now?</string>
+    <string name="widgets_title">Widgets</string>
+    <string name="widgets_summary">Define the list of widgets</string>
+    <string name="add_widget">Add widget</string>
+    <string name="widget_list">Widgets list</string>
+    <string name="widget_alert_remove_widget">Remove widget</string>
+    <string name="widget_remove_widget">Remove %s widget from list?</string>
+    <string name="widget_add_title">Choose an application</string>
 
 </resources>

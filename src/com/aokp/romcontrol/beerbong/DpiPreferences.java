@@ -36,8 +36,6 @@ public class DpiPreferences extends AOKPPreferenceFragment implements
         super.onCreate(savedInstanceState);
         mContext = getActivity();
 
-        Utils.setContext(mContext);
-
         addPreferencesFromResource(R.xml.dpi_settings);
 
         PreferenceScreen prefSet = getPreferenceScreen();
