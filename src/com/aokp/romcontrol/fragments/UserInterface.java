@@ -108,6 +108,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String PREF_LIST_EXPANDED_DESKTOP = "expanded_desktop";
     private static final String PREF_LS_COLOR_ALPHA = "lock_color_alpha";
     private static final String PREF_LOW_BATTERY_WARNING_POLICY = "pref_low_battery_warning_policy";
+    private static final String STATUS_BAR_AUTO_HIDE = "status_bar_auto_hide";
     private static final CharSequence PREF_DARK_UI = "ui_inverted_mode";
     private static final String KEY_MISSED_CALL_BREATH = "missed_call_breath";
     private static final CharSequence PREF_LONGPRESS_TO_KILL = "longpress_to_kill";
@@ -117,7 +118,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private static final String STATUS_BAR_NETWORK_COLOR = "status_bar_network_color";
     private static final String PREF_RECENTS_STYLE = "pref_recents_style";
     private static final String PREF_RECENTS_CLEAR = "pref_recents_clear";
-    private static final String STATUS_BAR_AUTO_HIDE = "status_bar_auto_hide";
     private static final String STATUS_BAR_QUICK_PEEK = "status_bar_quick_peek";
     private static final CharSequence PREF_STATUSBAR_SWIPE_TIMEOUT = "statusbar_swipe_timeout";
 
@@ -160,6 +160,7 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     ListPreference mListViewAnimation;
     ListPreference mListViewInterpolator;
     CheckBoxPreference mDarkUI;
+    CheckBoxPreference mStatusBarAutoHide;
     CheckBoxPreference mStatusBarQuickPeek;
     ListPreference mStatusBarSwipeTimeout;
     private ListPreference mRecentClear;
@@ -169,7 +170,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
     private ListPreference mStatusBarNetStatsUpdate;
     private CheckBoxPreference mStatusBarNetworkStats;
     private ColorPickerPreference mNetworkColor;
-    private CheckBoxPreference mStatusBarAutoHide;
 
     private AnimationDrawable mAnimationPart1;
     private AnimationDrawable mAnimationPart2;
@@ -259,10 +259,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mStatusBarNetworkStats.setChecked(Settings.System.getInt(mContentResolver,
                 Settings.System.STATUS_BAR_NETWORK_STATS, 0) == 1);
 
-        mStatusBarAutoHide = (CheckBoxPreference) findPreference(STATUS_BAR_AUTO_HIDE);
-        mStatusBarAutoHide.setChecked(Settings.System.getInt(mContentResolver,
-                Settings.System.AUTO_HIDE_STATUSBAR, 0) == 1);
-
         mStatusBarQuickPeek = (CheckBoxPreference) findPreference(STATUS_BAR_QUICK_PEEK);
         mStatusBarQuickPeek.setChecked(Settings.System.getInt(mContentResolver,
                 Settings.System.STATUSBAR_PEEK, 0) == 1);
@@ -295,6 +291,10 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mHideExtras = (CheckBoxPreference) findPreference(PREF_HIDE_EXTRAS);
         mHideExtras.setChecked(Settings.System.getBoolean(mContentResolver,
                 Settings.System.HIDE_EXTRAS_SYSTEM_BAR, false));
+
+        mStatusBarAutoHide = (CheckBoxPreference) findPreference(STATUS_BAR_AUTO_HIDE);
+        mStatusBarAutoHide.setChecked(Settings.System.getInt(mContentResolver,
+                Settings.System.AUTO_HIDE_STATUSBAR, 0) == 1);
 
         mExpandedDesktopListPref = (ListPreference) findPreference(PREF_LIST_EXPANDED_DESKTOP);
         mExpandedDesktopListPref.setOnPreferenceChangeListener(this);
@@ -641,11 +641,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                     Settings.System.STATUS_BAR_NETWORK_STATS,
                     ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
             return true;
-        } else if (preference == mStatusBarAutoHide) {
-            Settings.System.putInt(mContentRes,
-                    Settings.System.AUTO_HIDE_STATUSBAR,
-                    ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
-            return true;
         } else if (preference == mStatusBarQuickPeek) {
             Settings.System.putInt(mContentRes,
                     Settings.System.STATUSBAR_PEEK,
@@ -698,6 +693,11 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
                     Settings.System.MISSED_CALL_BREATH,
                     mMissedCallBreath.isChecked() ? 1 : 0);
            return true;
+        } else if (preference == mStatusBarAutoHide) {
+            Settings.System.putInt(mContentRes,
+                    Settings.System.AUTO_HIDE_STATUSBAR,
+                    ((CheckBoxPreference)preference).isChecked() ? 1 : 0);
+            return true;
         } else if (preference == mDarkUI) {
             boolean checked = ((CheckBoxPreference) preference).isChecked();
             Settings.Secure.putInt(mContentResolver,
