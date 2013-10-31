@@ -161,6 +161,9 @@
     <string name="persist_prop_density_summary">Persist LCD density</string>
     <string name="persist_file_hosts">Persist Hosts</string>
     <string name="persist_file_hosts_summary">Persist hosts file</string>
+    <string name="persist_file_xposed">Persist Xposed</string>
+    <string name="persist_file_xposed_summary">Persist file app_process for Xposed framework</string>
+    <string name="persist_file_xposed_notinstalled">XposedInstaller is not installed</string>
 
     <!-- Power Saving -->
     <string name="title_pref_powersaving_pref_mode">Enable power saver</string>
@@ -1789,5 +1792,9 @@
     <string name="widget_alert_remove_widget">Remove widget</string>
     <string name="widget_remove_widget">Remove %s widget from list?</string>
     <string name="widget_add_title">Choose an application</string>
+
+    <!-- Fast Charge -->
+    <string name="fast_charge_not_supported_title">Fast Charge not supported</string>
+    <string name="fast_charge_not_supported">Fast Charge is not supported by the current kernel.</string>
 
 </resources>
