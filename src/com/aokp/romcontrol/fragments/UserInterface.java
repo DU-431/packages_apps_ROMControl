@@ -247,9 +247,6 @@ public class UserInterface extends AOKPPreferenceFragment implements OnPreferenc
         mLongPressToKill = (CheckBoxPreference) findPreference(PREF_LONGPRESS_TO_KILL);
         mLongPressToKill.setChecked(Settings.System.getInt(mContentResolver,
                 Settings.System.KILL_APP_LONGPRESS_BACK, 0) == 1);
-        if (!hasHardwareButtons) {
-            getPreferenceScreen().removePreference(((PreferenceGroup) findPreference(PREF_MISC)));
-        }
 
         mStatusBarCarrierLabel = (CheckBoxPreference) findPreference(STATUS_BAR_CARRIER_LABEL);
         mStatusBarCarrierLabel.setChecked(Settings.System.getInt(mContentResolver,
